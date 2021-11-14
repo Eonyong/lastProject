@@ -59,16 +59,6 @@
 <script>
 export default {
   name: 'login',
-  data: () => ({
-    userId: '',
-    userPassword: '',
-  }),
-  method: {
-    onSubmit () {
-      console.log(this.userId)
-      console.log(this.userPassword)
-    }
-  }
 }
 </script>
 
