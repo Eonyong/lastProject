@@ -5,7 +5,7 @@
       <div>
         <router-link to="/">Home</router-link> |
         <router-link to="/login">로그인</router-link> |
-        <router-link to="/login">회원가입</router-link>
+        <router-link to="/CreateAccount">회원가입</router-link>
       </div>
     </div>
     <router-view />
@@ -17,7 +17,6 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: end;
   color: #2c3e50;
 }
 

@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '@/views/Home'
 import login from '@/views/login'
+import CreateAccount from '@/views/CreateAccount'
 
 Vue.use(VueRouter)
 
@@ -15,7 +16,12 @@ const routes = [
     path: '/login',
     name: 'login',
     component: login
-  }
+  },
+  {
+    path: '/CreateAccount',
+    name: 'CreateAccount',
+    component: CreateAccount
+  },
 ]
 
 const router = new VueRouter({

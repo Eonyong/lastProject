@@ -1,59 +1,59 @@
 <template>
-  <div align="center">
-    <div class="container">
-      <form class="form lang-en_us auto-en_us ">
+<div>
+  <section class="vh-100" style="background-color: #eee;">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-12 col-xl-11">
+          <div class="card text-black" style="border-radius: 25px;">
+            <div class="card-body p-md-5">
+              <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-        <div class="form clr">
-          <!-- 로그인 중에서 Account 작성 부분 -->
-          <dl>
-            <dt class="fm-label">
-              <div class="fm-label-wrap clr">
-                <label for="fm-login-id">Account:</label>
+                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign in</p>
+
+                  <form class="mx-1 mx-md-4">
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example3c">Your Email</label>
+                        <input type="email" id="form3Example3c" class="form-control" placeholder="Enter your Email"/>
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example4c">Password</label>
+                        <input type="password" id="form3Example4c" class="form-control" placeholder="Enter your Password"/>
+                      </div>
+                    </div>
+
+                    <div class="form-check d-flex justify-content-center mb-5">
+                      <input
+                        class="form-check-input me-2"
+                        type="checkbox"
+                        value=""
+                        id="form2Example3c"
+                      />
+                      <label class="form-check-label" for="form2Example3">
+                        I agree all statements in <a href="#!">Terms of service</a>
+                      </label>
+                    </div>
+
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                      <button type="button" class="btn btn-primary btn-lg">Sign In</button>
+                    </div>
+
+                  </form>
+
+                </div>
               </div>
-            </dt>
-            <!-- account 입력 칸 -->
-            <dd class="fm-field">
-              <div class="fm-field-wrap">
-                <input type="text" tabindex="1" value autocorrect="off" autocapitalize="off" placeholder="Enter your Account">
-              </div>
-            </dd>
-          </dl>
-          <!-- 로그인 중에서 Password 작성 부분 -->
-          <dl>
-            <dt class="fm-label">
-              <div class="fm-label-wrap">
-                <label for="fm-login-password">Password:</label>
-                <!-- forget password 작성 부분 -->
-                <span class="fm-label-extra">
-                  <a href="#" target="_blank" data-spm-protocol="i">Forgot Password?</a>
-                </span>
-              </div>
-            </dt>
-            <!-- password 입력 칸 -->
-            <dd class="fm-field">
-              <div class="fm-field-wrap">
-                <input type="password" tabindex="2" value autocorrect="off" autocapitalize="off" placeholder="Enter your Password">
-              </div>
-            </dd>
-          </dl>
+            </div>
+          </div>
         </div>
-        <!-- submit btn -->
-        <div>
-          <input type="hidden" value="submit" name="event_submit_do_login" class="bg-warning">
-          <input type="submit" value="Sign in" class="fm-button fm-submit bg-warning" tabindex="4" name="submit-btn">
-        </div>
-        <div class="login-login-links">
-          <span class="thirdpart-login-text">Sign in with:</span>
-          <span id="thirdpart-login">
-            <a href="javascript:;" attr-action="window" attr-type="facebook" attr-customurl="" attr-onclickfn="" class="thirdpart-login-icon icon-facebook" title="sign in with facebook"></a>
-            <a href="javascript:;" attr-action="window" attr-type="google" attr-customurl="" attr-onclickfn="" class="thirdpart-login-icon icon-google" title="sign in with google"></a>
-            <a href="javascript:;" attr-action="window" attr-type="linkedin" attr-customurl="" attr-onclickfn="" class="thirdpart-login-icon icon-linkedin" title="sign in with linkedin"></a>
-            <a href="javascript:;" attr-action="window" attr-type="twitter" attr-customurl="" attr-onclickfn="" class="thirdpart-login-icon icon-twitter" title="sign in with twitter"></a>
-          </span>
-        </div>
-      </form>
+      </div>
     </div>
-  </div>
+  </section>
+</div>
 </template>
 
 <script>
