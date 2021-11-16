@@ -15,32 +15,36 @@
 
                       <div class="d-flex flex-row align-items-center mb-4">
                         <div class="form-outline flex-fill mb-0">
-                          <label class="form-label" for="form3Example1c">Your Name</label>
-                          <input type="text" id="form3Example1c" class="form-control" placeholder="Enter your Name"/>
+                          <label class="form-label" for="username">Your Name</label>
+                          <input type="text" id="username" class="form-control" placeholder="Enter your Name"
+                          v-model="crudentials.username" />
                         </div>
                       </div>
 
                       <div class="d-flex flex-row align-items-center mb-4">
                         <div class="form-outline flex-fill mb-0">
-                          <label class="form-label" for="form3Example3c">Your Email</label>
-                          <input type="email" id="form3Example3c" class="form-control" placeholder="Enter your Email"/>
+                          <label class="form-label" for="useremail">Your Email</label>
+                          <input type="email" id="useremail" class="form-control" placeholder="Enter your Email"
+                          v-model="crudentials.useremail"/>
                         </div>
                       </div>
 
                       <div class="d-flex flex-row align-items-center mb-4">
                         <div class="form-outline flex-fill mb-0">
-                          <label class="form-label" for="form3Example4c">Password</label>
-                          <input type="password" id="form3Example4c" class="form-control" placeholder="Enter your Password"/>
+                          <label class="form-label" for="password">Password</label>
+                          <input type="password" id="password" class="form-control" placeholder="Enter your Password"
+                          v-model="crudentials.password"/>
                         </div>
                       </div>
 
                       <div class="d-flex flex-row align-items-center mb-4">
                         <div class="form-outline flex-fill mb-0">
-                          <label class="form-label" for="form3Example4cd">Repeat your password</label>
-                          <input type="password" id="form3Example4cd" class="form-control" placeholder="Enter your Password"/>
+                          <label class="form-label" for="passwordConfirmation">Repeat your password</label>
+                          <input type="password" id="passwordConfirmation" class="form-control" placeholder="Enter your Password"
+                          @keypress.enter="signup(crudentials)" v-model="crudentials.passwordConfirmation"/>
                         </div>
                       </div>
-
+<!-- 
                       <div class="form-check d-flex justify-content-center mb-5">
                         <input
                           class="form-check-input me-2"
@@ -51,10 +55,10 @@
                         <label class="form-check-label" for="form2Example3">
                           I agree all statements in <a href="#!">Terms of service</a>
                         </label>
-                      </div>
+                      </div> -->
 
                       <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <button type="button" class="btn btn-primary btn-lg">Register</button>
+                        <button @click="signup(crudentials)" class="btn btn-primary btn-lg">Register</button>
                       </div>
 
                     </form>
@@ -71,8 +75,36 @@
 </template>
 
 <script>
+import axios from 'axios'
+
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
+
 export default {
- name: 'CreateAccount',
+ name: 'Signup',
+ data: function () {
+    return {
+      credentials: {
+        username: '',
+        useremail: '',
+        password: '',
+        passwordConfirmation: '',
+      }
+    }
+  },
+  methods: {
+    signup: function (credentials) {
+      console.log(credentials)
+      //axios
+      axios.post(`${SERVER_URL}/accounts/Signup/`, this.credentials)
+      .then(() => {
+        // console.log(res)
+        this.$router.push({ name: 'Login' })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+  }
 }
 </script>
 

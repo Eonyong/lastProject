@@ -14,18 +14,52 @@
         <div>
           <ul class="navbar-nav flex-row">
             <li class="nav-item"><router-link to="/"> Home </router-link></li>
-            <p class="px-2">|</p>
-            <li class="nav-item"><router-link to="/login"> 로그인 </router-link></li>
-            <p class="px-2">|</p>
-            <li class="nav-item"><router-link to="/CreateAccount"> 회원가입 </router-link></li>
+            <span class="d-flex" v-if="login">
+              <p class="px-2">|</p>
+              <li class="nav-item"><router-link to="/accounts/Login"> 로그인 </router-link></li>
+              <p class="px-2">|</p>
+              <li class="nav-item"><router-link to="/accounts/Signup"> 회원가입 </router-link></li>
+            </span>
+            <span v-else>
+              <p class="px-2">|</p>
+              <li class="nav-item"><router-link @click.native="logout" to="#"> 로그인 </router-link></li>
+            </span>
           </ul>
         </div>
         <!-- 오른쪽 컴포넌트 마지막 -->
       </div>
     </nav>
-    <router-view />
+    <router-view @login="login = false"/>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+  data: function () {
+    return {
+      login: false,
+    }
+  },
+  methods: {
+    logout: function () {
+      localStorage.removeItem('jwt')
+      this.$router.push({ name: 'Login' })
+    }
+    
+  },
+  created: function () {
+    // 1. Vue instance가 생성된 직후에 호출되어 jwt를 가져오기
+    const token = localStorage.getItem('jwt')
+    // 2. 토큰이 있다면
+    if (token) {
+      // 3. true로 변경하고, 없으면 유지한다.
+      this.login = true
+    }
+  }
+}
+
+</script>
 
 <style>
 #app {

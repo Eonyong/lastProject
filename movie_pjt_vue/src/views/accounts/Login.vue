@@ -9,25 +9,27 @@
               <div class="row justify-content-center">
                 <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign in</p>
+                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Log in</p>
 
                   <form class="mx-1 mx-md-4">
 
                     <div class="d-flex flex-row align-items-center mb-4">
                       <div class="form-outline flex-fill mb-0">
-                        <label class="form-label" for="form3Example3c">Your Email</label>
-                        <input type="email" id="form3Example3c" class="form-control" placeholder="Enter your Email"/>
+                        <label class="form-label" for="useremail">Your Email</label>
+                        <input type="email" id="useremail" class="form-control" placeholder="Enter your Email"
+                        v-model="credentials.useremail"/>
                       </div>
                     </div>
 
                     <div class="d-flex flex-row align-items-center mb-4">
                       <div class="form-outline flex-fill mb-0">
-                        <label class="form-label" for="form3Example4c">Password</label>
-                        <input type="password" id="form3Example4c" class="form-control" placeholder="Enter your Password"/>
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Enter your Password"
+                        @keypress.enter="login(credentials)" v-model="credentials.password"/>
                       </div>
                     </div>
 
-                    <div class="form-check d-flex justify-content-center mb-5">
+                    <!-- <div class="form-check d-flex justify-content-center mb-5">
                       <input
                         class="form-check-input me-2"
                         type="checkbox"
@@ -37,10 +39,11 @@
                       <label class="form-check-label" for="form2Example3">
                         I agree all statements in <a href="#!">Terms of service</a>
                       </label>
-                    </div>
+                    </div> -->
 
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <button type="button" class="btn btn-primary btn-lg">Sign In</button>
+                      <button type="submit"
+                      @click="login(credentials)" class="btn btn-primary btn-lg">Sign In</button>
                     </div>
 
                   </form>
@@ -57,8 +60,38 @@
 </template>
 
 <script>
+import axios from 'axios'
+
+
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
+
 export default {
-  name: 'login',
+  name: 'Login',
+  data: function () {
+    return {
+      crudentials: {
+        useremail: '',
+        password: '',
+      },
+    }
+  },
+  methods: {
+    login: function (credentials) {
+      console.log(credentials)
+      //axios
+      axios.post(`${SERVER_URL}/accounts/api-token-auth/`, this.credentials)
+      .then((res) => {
+        // console.log(res)
+        localStorage.setItem('jwt', res.data.token)
+        this.$emit('login') // app 컴포넌트에 로그인이 됐다고 신호를 보냄
+        this.$router.push({ name: 'TodoList' })
+
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+  }
 }
 </script>
 
