@@ -1,14 +1,16 @@
 <template>
   <div id="app">
-    <nav id="nav" class="navbar-expand-lg align-items-center flex-column fixed-top bg-white">
+    <nav id="nav" class="navbar-expand-lg align-items-center flex-column fixed-top bg-none">
+      <!-- Home 컴포넌트 제작 -->
       <div class="container-fluid d-flex">
         <a href="/" class="navbar-brand">Home</a>
+        <!-- Search bar 제작 -->
         <div class="input-group ps-5 ">
           <div id="navbar-search-autocomplete" class="form-outline">
             <input type="search" id="form1" class="form-control" placeholder="Search"/>
-            <!-- <label class="form-label" for="form1">Search</label> -->
           </div>
         </div>
+        <!-- 오른쪽 컴포넌트 제작 -->
         <div>
           <ul class="navbar-nav flex-row">
             <li class="nav-item"><router-link to="/"> Home </router-link></li>
@@ -18,6 +20,7 @@
             <li class="nav-item"><router-link to="/CreateAccount"> 회원가입 </router-link></li>
           </ul>
         </div>
+        <!-- 오른쪽 컴포넌트 마지막 -->
       </div>
     </nav>
     <router-view />
