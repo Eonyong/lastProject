@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -23,6 +24,8 @@ class Movie(models.Model):
     video = models.BooleanField(null=True)
     vote_average = models.FloatField(null=True)
     vote_count = models.IntegerField(null=True)
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies')
+    dislike_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='dislike_movies')
     
     def __str__(self):
         return f'{self.pk}: {self.title}'
