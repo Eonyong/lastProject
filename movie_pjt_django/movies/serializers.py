@@ -5,6 +5,8 @@ from movies.models import Movie
 
 class MovieSerializer(serializers.ModelSerializer):
 
+
+  # class ReviewSerializer()
   class Meta:
     model = Movie
     fields = '__all__'

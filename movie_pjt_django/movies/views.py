@@ -1,3 +1,4 @@
+from movies import serializers
 from movies.models import Movie
 from movies.serializers import MovieSerializer
 from django.http import Http404
@@ -5,9 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
+from django.contrib.auth import get_user_model
 
-
-from django.contrib.auth.models import User
 
 
 
@@ -38,6 +38,35 @@ class MovieDetail(APIView):
         movie = self.get_object(pk)
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
+
+
+class MovieLike(APIView):
+
+    def post(request, pk):
+        movie = generics.get_object_or_404(Movie, pk = pk)
+        if movie.like_movies.filter(pk=request.user.pk).exist():
+            movie.like_movies.remove(request.user)
+        else:
+            if movie.dislike_movies.filter(pk=request.user.pk).exist():
+                movie.dislike_movies.remove(request.user)
+            movie.like_movies.add(request.user)
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data)
+
+
+class MovieDislike(APIView):
+
+    def post(request, pk):
+        movie = generics.get_object_or_404(Movie, pk = pk)
+        if movie.dislike_movies.filter(pk=request.user.pk).exist():
+            movie.dislike_movies.remove(request.user)
+        else:
+            if movie.like_movies.filter(pk=request.user.pk).exist():
+                movie.like_movies.remove(request.user)
+            movie.dislike_movies.add(request.user)
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data)
+
 
     # def put(self, request, pk, format=None):
     #     movie = self.get_object(pk)
