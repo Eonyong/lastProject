@@ -1,35 +1,64 @@
 <template>
   <div id="app">
     <nav id="nav" class="navbar-expand-md align-items-center flex-column fixed-top bg-none">
+      <!-- side padding nav 제작 -->
+      <b-sidebar id="sidebar-1" title="Homepage Name" shadow>
+        <!-- 오른쪽 컴포넌트 제작 -->
+        <div>
+          <ul class="navbar-nav flex-col">
+            <!-- <li class="nav-item"><router-link to="/"> Home </router-link></li> -->
+            <span>
+              <div v-if="login">
+                <li class="nav-item">
+                  <button class="btn btn-link" style="width: auto;">
+                    <router-link to="/accounts/login"> 로그인 </router-link>
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button class="btn btn-link">
+                    <router-link to="/accounts/signup"> 회원가입 </router-link>
+                  </button>
+                </li>
+              </div>
+              <div v-else>
+                <li class="nav-item">
+                  <button class="btn btn-link">
+                    <router-link @click.native="logout" to="#"> 로그아웃 </router-link>
+                  </button>
+                </li>
+              </div>
+
+              <li class="nav-item">
+                <button class="btn btn-link">
+                  <router-link to="#"> 영화 목록 </router-link>
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="btn btn-link">
+                  <router-link to="#"> 모든 리뷰 모아보기 </router-link>
+                </button>
+              </li>
+
+            </span>
+          </ul>
+        </div>
+      </b-sidebar>
       <!-- Home 컴포넌트 제작 -->
       <div class="container-fluid d-flex">
-        <a href="/" class="navbar-brand">Home</a>
+        <img :src="require('@/assets/list_icon.png')" style="image-rendering: auto;" alt="" v-b-toggle.sidebar-1 width="40" height="40">
         <!-- Search bar 제작 -->
         <div class="input-group ps-5 ">
           <div id="navbar-search-autocomplete" class="form-outline">
             <input type="search" id="form1" class="form-control" placeholder="Search"/>
           </div>
         </div>
-        <!-- 오른쪽 컴포넌트 제작 -->
-        <div>
-          <ul class="navbar-nav flex-row">
-            <li class="nav-item"><router-link to="/"> Home </router-link></li>
-            <span class="d-flex" v-if="login">
-              <p class="px-2">|</p>
-              <li class="nav-item"><router-link to="/accounts/login"> 로그인 </router-link></li>
-              <p class="px-2">|</p>
-              <li class="nav-item"><router-link to="/accounts/signup"> 회원가입 </router-link></li>
-            </span>
-            <span v-else>
-              <p class="px-2">|</p>
-              <li class="nav-item"><router-link @click.native="logout" to="#"> 로그아웃 </router-link></li>
-            </span>
-          </ul>
-        </div>
+        
         <!-- 오른쪽 컴포넌트 마지막 -->
       </div>
+      
     </nav>
     <router-view @login="login = false"/>
+    
   </div>
 </template>
 

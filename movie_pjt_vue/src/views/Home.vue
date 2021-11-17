@@ -1,98 +1,56 @@
+      
+      <!-- @sliding-start="onSlideStart" -->
+      <!-- @sliding-end="onSlideEnd" -->
 <template>
-  <div class="home">
-    <!-- Carousel wrapper -->
-    <div
-      id="carouselDarkVariant"
-      class="carousel slide carousel-fade carousel-dark"
-      data-mdb-ride="carousel"
+  <div>
+    <b-carousel
+      id="carousel-1"
+      :interval="4000"
+      controls
+      indicators
+      background="#ababab"
+      img-width="1024"
+      img-height="480"
+      fade
     >
-      <!-- Indicators -->
-      <div class="carousel-indicators">
-        <button
-          data-mdb-target="#carouselDarkVariant"
-          data-mdb-slide-to="0"
-          class="active"
-          aria-current="true"
-          aria-label="Slide 1"
-        ></button>
-        <button
-          data-mdb-target="#carouselDarkVariant"
-          data-mdb-slide-to="1"
-          aria-label="Slide 1"
-        ></button>
-        <button
-          data-mdb-target="#carouselDarkVariant"
-          data-mdb-slide-to="2"
-          aria-label="Slide 1"
-        ></button>
-      </div>
+      <!-- Text slides with image -->
+      <b-carousel-slide
+        caption="First slide"
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        img-src="https://picsum.photos/1024/480/?image=52"
+      ></b-carousel-slide>
 
-      <!-- Inner -->
-      <div class="carousel-inner">
-        <!-- Single item -->
-        <div class="carousel-item active">
+      <!-- Slides with custom text -->
+      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
+        <h1>Hello world!</h1>
+      </b-carousel-slide>
+
+      <!-- Slides with image only -->
+      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
+
+      <!-- Slides with img slot -->
+      <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
+      <b-carousel-slide>
+        <template #img>
           <img
-            src="https://mdbootstrap.com/img/Photos/Slides/img%20(19).jpg"
-            class="d-block w-100"
-            alt="..."
-          />
-          <div class="carousel-caption d-none d-md-block">
-            <h5>First slide label</h5>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          </div>
-        </div>
+            class="d-block img-fluid w-100"
+            width="1024"
+            height="480"
+            src="https://picsum.photos/1024/480/?image=55"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
 
-        <!-- Single item -->
-        <div class="carousel-item">
-          <img
-            src="https://mdbootstrap.com/img/Photos/Slides/img%20(35).jpg"
-            class="d-block w-100"
-            alt="..."
-          />
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Second slide label</h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </div>
-        </div>
+      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
+      <b-carousel-slide caption="Blank Image" img-blank img-alt="Blank image">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
+          a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
+        </p>
+      </b-carousel-slide>
+    </b-carousel>
 
-        <!-- Single item -->
-        <div class="carousel-item">
-          <img
-            src="https://mdbootstrap.com/img/Photos/Slides/img%20(40).jpg"
-            class="d-block w-100"
-            alt="..."
-          />
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Third slide label</h5>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-          </div>
-        </div>
-      </div>
-      <!-- Inner -->
-
-      <!-- Controls -->
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-mdb-target="#carouselDarkVariant"
-        data-mdb-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-mdb-target="#carouselDarkVariant"
-        data-mdb-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-    <!-- Carousel wrapper -->
-
-    <!-- movie wrapper -->
     <section class="list item-more" id="movieListExample1" style="padding-top: 0px;">
       <h2 class="section-title">인기 영화</h2>
       <div class="bx-wrapper" style="max-width: 1200px;">
@@ -103,6 +61,8 @@
         </div>
       </div>
     </section>
+
+    
   </div>
 </template>
 
@@ -111,6 +71,20 @@
 export default {
   name: 'Home',
   components: {
+  },
+  // data () {
+  //   return {
+  //     slide: 0,
+  //     sliding: null,
+  //   }
+  // },
+  methods: {
+    // onSlideStart(slide) {
+    //   this.sliding = true
+    // },
+    // onSlideEnd(slide) {
+    //   this.sliding = false
+    // }
   }
 }
 </script>
