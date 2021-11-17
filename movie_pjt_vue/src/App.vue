@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav id="nav" class="navbar-expand-lg align-items-center flex-column fixed-top bg-none">
+    <nav id="nav" class="navbar-expand-md align-items-center flex-column fixed-top bg-none">
       <!-- Home 컴포넌트 제작 -->
       <div class="container-fluid d-flex">
         <a href="/" class="navbar-brand">Home</a>
@@ -16,13 +16,13 @@
             <li class="nav-item"><router-link to="/"> Home </router-link></li>
             <span class="d-flex" v-if="login">
               <p class="px-2">|</p>
-              <li class="nav-item"><router-link to="/accounts/Login"> 로그인 </router-link></li>
+              <li class="nav-item"><router-link to="/accounts/login"> 로그인 </router-link></li>
               <p class="px-2">|</p>
-              <li class="nav-item"><router-link to="/accounts/Signup"> 회원가입 </router-link></li>
+              <li class="nav-item"><router-link to="/accounts/signup"> 회원가입 </router-link></li>
             </span>
             <span v-else>
               <p class="px-2">|</p>
-              <li class="nav-item"><router-link @click.native="logout" to="#"> 로그인 </router-link></li>
+              <li class="nav-item"><router-link @click.native="logout" to="#"> 로그아웃 </router-link></li>
             </span>
           </ul>
         </div>

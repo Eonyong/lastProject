@@ -15,9 +15,9 @@
 
                     <div class="d-flex flex-row align-items-center mb-4">
                       <div class="form-outline flex-fill mb-0">
-                        <label class="form-label" for="useremail">Your Email</label>
-                        <input type="email" id="useremail" class="form-control" placeholder="Enter your Email"
-                        v-model="credentials.useremail"/>
+                        <label class="form-label" for="username">Your ID</label>
+                        <input type="text" id="username" class="form-control" placeholder="Enter your ID"
+                        v-model="credentials.username"/>
                       </div>
                     </div>
 
@@ -69,8 +69,8 @@ export default {
   name: 'Login',
   data: function () {
     return {
-      crudentials: {
-        useremail: '',
+      credentials: {
+        username: '',
         password: '',
       },
     }
@@ -79,12 +79,12 @@ export default {
     login: function (credentials) {
       console.log(credentials)
       //axios
-      axios.post(`${SERVER_URL}/accounts/api-token-auth/`, this.credentials)
+      axios.post(`${SERVER_URL}/accounts/login/`, this.credentials)
       .then((res) => {
         // console.log(res)
         localStorage.setItem('jwt', res.data.token)
         this.$emit('login') // app 컴포넌트에 로그인이 됐다고 신호를 보냄
-        this.$router.push({ name: 'TodoList' })
+        this.$router.push({ name: 'Home' })
 
       })
       .catch((err) => {
