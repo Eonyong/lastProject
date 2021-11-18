@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth import get_user_model
+from rest_framework import permissions
 
 
 
@@ -18,10 +19,11 @@ class ReviewList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        print('포스트 들어옴')
+        # print('포스트 들어옴')
+        permission_classes = [permissions.IsAuthenticatedOrReadOnly]
         serializer = ReviewSerializer(data=request.data)
-        print(serializer)
-        print('시리얼라이저 완료')
+        # print(serializer)
+        # print('시리얼라이저 완료')
         if serializer.is_valid():
             serializer.save(user=request.user, movie=Movie.objects.get(pk=request.data['movie']['id']))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -29,7 +31,7 @@ class ReviewList(APIView):
 
 
 class ReviewDetail(APIView):
-
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def get_object(self, pk):
         try:
             return Review.objects.get(pk=pk)
@@ -43,36 +45,69 @@ class ReviewDetail(APIView):
 
 
 class ReviewClap(APIView):
-    def post(request, pk):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def post(self, request, pk):
         review = generics.get_object_or_404(Review, pk = pk)
-        if review.claps.filter(pk=request.user.pk).exist():
-            review.claps.remove(request.user)
+        if request.user != review.user:     # 리뷰 작성자와 clap보내는 사람이 같지않도록
+            if review.claps.filter(pk=request.user.pk).exists():
+                review.claps.remove(request.user)
+            else:
+                review.claps.add(request.user)
+            serializer = ReviewSerializer(review)
+            return Response(serializer.data)
         else:
-            review.claps.add(request.user)
-        serializer = ReviewSerializer(review)
-        return Response(serializer.data)
+            return Response(status=status.HTTP_403_FORBIDDEN)
     
 
 
-class Comment(APIView):
+class CommentList(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # def get_object(self, pk):
+    #     try:
+    #         return Comment.objects.get(pk=pk)
+    #     except Comment.DoesNotExist:
+    #         raise Http404
+
+    # def get(self, request, pk, format=None):
+    #     comment = self.get_object(pk=pk)
+    #     serializer = CommentSerializer(comment)
+    #     return Response(serializer.data)
+
     def post(self, request, pk, format=None):
         serializer = CommentSerializer(data=request.data)
-        print(serializer)
+        # print(pk)
         if serializer.is_valid():
             serializer.save(user=request.user, review = Review.objects.get(pk=pk))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk, format=None):
-        comment = self.get_object(pk)
+        
+        # queryset = self.get_queryset()
+        # serializer_class = CommentSerializer(queryset)
+        print(request.data['id'])
+        comment = generics.get_object_or_404(Comment, pk = request.data['id'])
+        # print(comment.pk)
+        # print(request.user)
         serializer = CommentSerializer(comment, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if request.user == comment.user:
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
     def delete(self, request, pk, format=None):
-        comment = self.get_object(pk)
-        comment.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        # comment = self.get_object(pk=pk)
+        comment = generics.get_object_or_404(Comment, pk = request.data['id'])
+        print(request.user)
+        print(comment)
+        if request.user == comment.user:
+            print(comment)
+            Comment.objects.get(pk=request.data['id']).delete()
+            # comment.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 

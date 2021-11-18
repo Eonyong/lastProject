@@ -1,5 +1,5 @@
 from movies import serializers
-from movies.models import Movie
+from movies.models import Movie, Genre
 from movies.serializers import MovieSerializer, MovieListSerializer
 from django.http import Http404
 from rest_framework.views import APIView
@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth import get_user_model
 import random
+from rest_framework import permissions
 
 
 
@@ -15,13 +16,13 @@ import random
 class MovieList(APIView):
 
     def get(self, request, format=None):
-        
-        movies = Movie.objects.all()[:100]
-        num_list = random.sample(range(len(movies)), 100)
-        random_movies=[]
-        for i in num_list:
-            random_movies.append(movies[i])
-        serializer = MovieListSerializer(random_movies, many=True)
+        # genres = Genre.objects.all()
+        movies = Movie.objects.all()
+        # genre_list = random.sample(range(len(genres)), 10)
+        # random_movies=[]
+        # for genre in genre_list:
+        #     i
+        serializer = MovieListSerializer(movies, many=True)
         return Response(serializer.data)
 
     # def post(self, request, format=None):
@@ -33,7 +34,7 @@ class MovieList(APIView):
 
 
 class MovieDetail(APIView):
-
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def get_object(self, pk):
         try:
             return Movie.objects.get(pk=pk)
@@ -47,29 +48,29 @@ class MovieDetail(APIView):
 
 
 class MovieLike(APIView):
-
-    def post(request, pk):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def post(self, request, pk):
         movie = generics.get_object_or_404(Movie, pk = pk)
-        if movie.like_movies.filter(pk=request.user.pk).exist():
-            movie.like_movies.remove(request.user)
+        if movie.like_users.filter(pk=request.user.pk).exists():
+            movie.like_users.remove(request.user)
         else:
-            if movie.dislike_movies.filter(pk=request.user.pk).exist():
-                movie.dislike_movies.remove(request.user)
-            movie.like_movies.add(request.user)
+            if movie.dislike_users.filter(pk=request.user.pk).exists():
+                movie.dislike_users.remove(request.user)
+            movie.like_users.add(request.user)
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
 
 
 class MovieDislike(APIView):
-
-    def post(request, pk):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def post(self, request, pk):
         movie = generics.get_object_or_404(Movie, pk = pk)
-        if movie.dislike_movies.filter(pk=request.user.pk).exist():
-            movie.dislike_movies.remove(request.user)
+        if movie.dislike_users.filter(pk=request.user.pk).exists():
+            movie.dislike_users.remove(request.user)
         else:
-            if movie.like_movies.filter(pk=request.user.pk).exist():
-                movie.like_movies.remove(request.user)
-            movie.dislike_movies.add(request.user)
+            if movie.like_users.filter(pk=request.user.pk).exists():
+                movie.like_users.remove(request.user)
+            movie.dislike_users.add(request.user)
         serializer = MovieSerializer(movie)
         return Response(serializer.data)
 
