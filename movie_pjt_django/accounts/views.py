@@ -12,7 +12,6 @@ from .serializers import UserSerializer
 def signup(request):
     password = request.data.get('password')
     password_confirmation = request.data.get('passwordConfirmation')
-		
     if password != password_confirmation:
         return Response({'error': '비밀번호가 일치하지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 		
@@ -26,3 +25,10 @@ def signup(request):
         user.save()
         
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+@api_view(['POST'])
+def getusername(request):
+    username = request.user.username
+    return Response({"username":request.user.username})

@@ -10,6 +10,8 @@ class Genre(models.Model):
         return f'{self.pk}: {self.name}'
 
 class Movie(models.Model):
+
+
     adult = models.BooleanField(null=True)
     backdrop_path = models.CharField(max_length=255, null=True)
     genre_ids  = models.ManyToManyField(Genre, related_name='movies')

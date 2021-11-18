@@ -1,9 +1,10 @@
 from django.urls import path
-from rest_framework_jwt.views import obtain_jwt_token
 from . import views
 
 
 urlpatterns = [
-    # path('signup/', views.signup),
-    # path('api-token-auth/', obtain_jwt_token),
+    path('review/', views.ReviewList.as_view()),
+    path('review/<int:pk>/', views.ReviewDetail.as_view()),
+    path('review/<int:pk>/claps/', views.ReviewClap.as_view()),
+    path('review/<int:pk>/comment/', views.Comment.as_view()),
 ]

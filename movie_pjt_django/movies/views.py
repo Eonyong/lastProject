@@ -1,12 +1,13 @@
 from movies import serializers
 from movies.models import Movie
-from movies.serializers import MovieSerializer
+from movies.serializers import MovieSerializer, MovieListSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth import get_user_model
+import random
 
 
 
@@ -14,8 +15,13 @@ from django.contrib.auth import get_user_model
 class MovieList(APIView):
 
     def get(self, request, format=None):
-        movies = Movie.objects.all()
-        serializer = MovieSerializer(movies, many=True)
+        
+        movies = Movie.objects.all()[:100]
+        num_list = random.sample(range(len(movies)), 100)
+        random_movies=[]
+        for i in num_list:
+            random_movies.append(movies[i])
+        serializer = MovieListSerializer(random_movies, many=True)
         return Response(serializer.data)
 
     # def post(self, request, format=None):
