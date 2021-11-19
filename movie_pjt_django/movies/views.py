@@ -12,6 +12,8 @@ from rest_framework import filters
 from django.contrib.auth import get_user_model
 import random
 from django.db.models import Q
+from collections import OrderedDict
+import itertools
 
 
 
@@ -19,14 +21,31 @@ from django.db.models import Q
 class MovieList(APIView):
 
     def get(self, request, format=None):
-        # genres = Genre.objects.all()
         movies = Movie.objects.all()
-        # genre_list = random.sample(range(len(genres)), 10)
-        # random_movies=[]
-        # for genre in genre_list:
-        #     i
+        genres = Genre.objects.all()
+        genre_movie = []
+        for genre in genres:
+            # print(genre.name)
+            tmp = genre.movies.all().values()
+            print(tmp)
+            genre_movie.append({genre.name: tmp})
+
+        # print(genre_movie)
         serializer = MovieListSerializer(movies, many=True)
-        return Response(serializer.data)
+        
+        # return Response(serializer.data)
+        return Response(genre_movie)
+
+
+    # def get(self, request, format=None):
+        
+    #     genre_movies=[]
+    #     genres = Genre.objects.all()
+    #     for genre in genres:
+    #         genre_movie_queryset = genre.movies.all()[:10]
+    #         genre_movie_serializer = MovieListSerializer(genre_movie_queryset, many=True)
+    #         genre_movies.append({str(genre):genre_movie_serializer.data})
+    #     return Response(genre_movies)
 
     # def post(self, request, format=None):
     #     serializer = MovieSerializer(data=request.data)
