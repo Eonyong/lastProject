@@ -87,7 +87,8 @@ export default {
       axios.get('http://127.0.0.1:8000/movies/movielist/')
       .then( res => {
         console.log(res.data)
-        this.images = res.data
+        this.images = res.data[0][12]
+        // this.images = res.data
       })
     },
     load() {

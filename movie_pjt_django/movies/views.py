@@ -31,7 +31,7 @@ class MovieList(APIView):
             genre_movie.append({genre.genre_id: tmp})
 
         # print(genre_movie)
-        serializer = MovieListSerializer(movies, many=True)
+        # serializer = MovieListSerializer(movies, many=True)
         
         # return Response(serializer.data)
         return Response(genre_movie)
