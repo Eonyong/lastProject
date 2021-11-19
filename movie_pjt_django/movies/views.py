@@ -1,3 +1,4 @@
+from django.db.models import query
 from movies import serializers
 from movies.models import Movie, Genre
 from movies.serializers import MovieSerializer, MovieListSerializer
@@ -6,9 +7,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
+from rest_framework import permissions
+from rest_framework import filters
 from django.contrib.auth import get_user_model
 import random
-from rest_framework import permissions
+from django.db.models import Q
 
 
 
@@ -88,6 +91,39 @@ class MovieDislike(APIView):
     #     snippet = self.get_object(pk)
     #     snippet.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
+
+class MovieSearch(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    # print(queryset, serializer_class)
+    filter_backends = [filters.SearchFilter]
+    # print(filter_backends)
+    search_fields = ['title', 'original_title', 'overview']
+    
+    
+class MovieSearch(generics.ListAPIView):
+    # queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+
+    def get_queryset(self):
+        print(self.request.GET['search'])
+        q_word = self.request.GET['search']
+        print(q_word)
+        if q_word:
+
+            object_list = Movie.objects.filter(
+                Q(title__icontains=q_word) |
+                Q(genre_ids__name__icontains=q_word) |
+                Q(original_title__icontains=q_word) |
+                Q(overview__icontains=q_word)
+            )
+        else:
+            object_list = Movie.objects.all()
+        return object_list
+
+
 
 
 # class UserList(generics.ListAPIView):

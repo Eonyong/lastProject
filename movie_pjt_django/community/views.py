@@ -9,7 +9,8 @@ from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth import get_user_model
 from rest_framework import permissions
-
+from rest_framework import filters
+from django.db.models import Q
 
 
 class ReviewList(APIView):
@@ -111,3 +112,33 @@ class CommentList(APIView):
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
 
+# class ReviewSearch(generics.ListCreateAPIView):
+#     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    
+#     queryset = Review.objects.all()
+#     serializer_class = ReviewSerializer
+#     # print(queryset, serializer_class)
+#     filter_backends = [filters.SearchFilter]
+#     # print(filter_backends)
+#     search_fields = ['title', 'Review__user']
+#     # search_fields = ['title', 'movie__ms', 'user__us']
+
+
+class ReviewSearch(generics.ListAPIView):
+    # queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        print(self.request.GET['search'])
+        q_word = self.request.GET['search']
+        print(q_word)
+        if q_word:
+
+            object_list = Review.objects.filter(
+                Q(user__username__icontains=q_word) |
+                Q(title__icontains=q_word) |
+                Q(movie__title__icontains=q_word)
+            )
+        else:
+            object_list = Review.objects.all()
+        return object_list
