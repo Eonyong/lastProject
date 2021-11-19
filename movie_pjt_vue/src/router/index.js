@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+
 import Home from '@/views/Home'
 import Login from '@/views/accounts/Login'
 import Signup from '@/views/accounts/Signup'
@@ -24,7 +26,7 @@ const routes = [
     component: Signup
   },
   {
-    path: '/movieList',
+    path: '/movieList/movielist',
     name: 'MovieList',
     component: MovieList
   },

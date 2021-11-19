@@ -111,7 +111,7 @@ export default {
     signup: function (credentials) {
       console.log(credentials)
       //axios
-      axios.post(`${SERVER_URL}/accounts/signup/`, this.credentials)
+      axios.post(`${SERVER_URL}`+'/accounts/signup/', this.credentials)
       .then((res) => {
         console.log(res)
         this.$router.push({ name: 'Home' })
