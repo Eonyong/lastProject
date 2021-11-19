@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav id="nav" class="navbar-expand-md item-align-center flex-column fixed-top bg-transparent">
+    <nav id="nav" class="navbar-expand-md item-align-center flex-column fixed-top bg-transparent box-sizing-inherit">
       <!-- side padding nav 제작 -->
       <b-sidebar id="sidebar-1" class="bg-transparent"
       aria-labelledby="sidebar-no-header-title"
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+
 
 export default {
   name: 'App',
