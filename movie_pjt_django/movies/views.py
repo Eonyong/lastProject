@@ -20,32 +20,28 @@ import itertools
 
 class MovieList(APIView):
 
-    def get(self, request, format=None):
-        movies = Movie.objects.all()
-        genres = Genre.objects.all()
-        genre_movie = []
-        for genre in genres:
-            # print(genre.name)
-            tmp = genre.movies.all().values()
-            print(tmp)
-            genre_movie.append({genre.genre_id: tmp})
-
-        # print(genre_movie)
-        # serializer = MovieListSerializer(movies, many=True)
-        
-        # return Response(serializer.data)
-        return Response(genre_movie)
-
-
     # def get(self, request, format=None):
-        
-    #     genre_movies=[]
+    #     movies = Movie.objects.all()
     #     genres = Genre.objects.all()
+    #     genre_movie = []
     #     for genre in genres:
-    #         genre_movie_queryset = genre.movies.all()[:10]
-    #         genre_movie_serializer = MovieListSerializer(genre_movie_queryset, many=True)
-    #         genre_movies.append({str(genre):genre_movie_serializer.data})
-    #     return Response(genre_movies)
+
+    #         tmp = genre.movies.all().values()
+    #         print(tmp)
+    #         genre_movie.append({genre.genre_id: tmp})
+
+    #     return Response(genre_movie)
+
+
+    def get(self, request, format=None):
+        
+        genre_movies=[]
+        genres = Genre.objects.all()
+        for genre in genres:
+            genre_movie_queryset = genre.movies.all()[:10]
+            genre_movie_serializer = MovieListSerializer(genre_movie_queryset, many=True)
+            genre_movies.append({str(genre):genre_movie_serializer.data})
+        return Response(genre_movies)
 
     # def post(self, request, format=None):
     #     serializer = MovieSerializer(data=request.data)
@@ -111,15 +107,15 @@ class MovieDislike(APIView):
     #     snippet.delete()
     #     return Response(status=status.HTTP_204_NO_CONTENT)
 
-class MovieSearch(generics.ListCreateAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+# class MovieSearch(generics.ListCreateAPIView):
+#     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
-    queryset = Movie.objects.all()
-    serializer_class = MovieSerializer
-    # print(queryset, serializer_class)
-    filter_backends = [filters.SearchFilter]
-    # print(filter_backends)
-    search_fields = ['title', 'original_title', 'overview']
+#     queryset = Movie.objects.all()
+#     serializer_class = MovieSerializer
+#     # print(queryset, serializer_class)
+#     filter_backends = [filters.SearchFilter]
+#     # print(filter_backends)
+#     search_fields = ['title', 'original_title', 'overview']
     
     
 class MovieSearch(generics.ListAPIView):

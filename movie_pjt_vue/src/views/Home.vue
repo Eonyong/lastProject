@@ -6,7 +6,7 @@
     <b-carousel
       id="carousel-1"
       controls indicators fade aria-hidden="true"
-      :interval="2500" img-width="1024" img-height="360">
+      :interval="4000" img-width="1024" img-height="360">
 
       <b-carousel-slide v-for="image in images" :key="image.backdrop_path"
       v-bind:img-src="'https://image.tmdb.org/t/p/original' + `${image.backdrop_path}`"

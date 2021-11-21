@@ -137,7 +137,8 @@ class ReviewSearch(generics.ListAPIView):
             object_list = Review.objects.filter(
                 Q(user__username__icontains=q_word) |
                 Q(title__icontains=q_word) |
-                Q(movie__title__icontains=q_word)
+                Q(movie__title__icontains=q_word) |
+                Q(content__icontains=q_word)
             )
         else:
             object_list = Review.objects.all()

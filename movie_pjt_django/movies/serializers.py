@@ -25,10 +25,10 @@ class MovieListSerializer(serializers.ModelSerializer):
 class MovieSerializer(serializers.ModelSerializer):
       
   # # genre_ids = serializers.StringRelatedField(many=True)
-  # genre_ids = GenreSerializer(many=True)
+  genre_ids = GenreSerializer(many=True)
   # # class ReviewSerializer()
-  # class Meta:
-  #   model = Movie
-  #   fields ='__all__'
+  class Meta:
+    model = Movie
+    fields ='__all__'
 
-  dictionary = serializers.DictField(child = serializers.DictField())
+  # dictionary = serializers.DictField(child = serializers.DictField())
