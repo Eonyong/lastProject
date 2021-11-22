@@ -1,50 +1,32 @@
-      
-      <!-- @sliding-start="onSlideStart" -->
-      <!-- @sliding-end="onSlideEnd" -->
 <template>
   <div>
     <b-carousel
       id="carousel-1"
+      v-model="slide"
       controls indicators fade aria-hidden="true"
-      :interval="2500" img-width="1024" img-height="360">
+      :interval="2500" img-width="800" img-height="600"
+      label-prev="" label-next=""
+      @sliding-start="onSlideStart"
+      @sliding-end="onSlideEnd">
 
-      <b-carousel-slide v-for="image in images" :key="image.backdrop_path"
-      v-bind:img-src="'https://image.tmdb.org/t/p/original' + `${image.backdrop_path}`"
-      :title="image.title" :text="image.title" />
+      <b-carousel-slide v-for="movie in movies" :key="movie.backdrop_path" @click.native="movieClick(movie.id)"
+      v-bind:img-src="'https://image.tmdb.org/t/p/w780' + `${movie.backdrop_path}`"
+      :caption="movie.title"  style="font-size: -webkit-xxx-large;"/>
 
     </b-carousel>
 
     <section class="list item-more" id="movieListExample1" style="padding-top: 0px;">
-      <h2 class="section-title my-1">인기 영화</h2>
-      <!-- <b-carousel controls indicators :interval="1000" img-height="180" img-width="360">
-        <b-carousel-slide v-for="image in images" :key="image.poster_path" v-bind:img-src="'https://image.tmdb.org/t/p/w185' + `${image.poster_path}`" />
-      </b-carousel> -->
-      <!-- <div class="container d-flex-row position-relative " role="presentation">
-        <ul class="container__column flex d-flex box-orient-horizontal" style="overflow-x: auto;">
-          <li v-for="image in images" :key="image.poster_path" tabindex="-1"
-          style="list-style-type: none; float: left;" class="mx-4">
-            <img tabindex="0" :src="'https://image.tmdb.org/t/p/w185' + `${image.poster_path}`" alt="">
-          </li>
-        </ul>
-      </div> -->
-
-      <!-- <div class="bx-viewport" aria-live="polite" style="width: 100%; overflow: hidden; position: relative; height: 328px;"><div data-min="6" data-max="6" data-margin="18" data-pager="true" data-controls="true" class="bxslider bxslider-in" style="width: 20215%; position: relative; transition-duration: 0s; transform: translate3d(0px, 0px, 0px);" data-noslide="true">
-				<div num-"false" data-page-no="" class="program-item column-6 " style="float: left; list-style: none; position: relative; width: 185px; margin-right: 18px;" aria-hidden="false">
-          <img alt="[무삭제판] 해피니스" class="image-cover lazy loaded" onerror="onErrorVerticalImage(this)" data-ll-status="loaded" 
-          v-for="image in images" :key="image.poster_path" v-bind:src="'https://image.tmdb.org/t/p/w185' + `${image.poster_path}`" height="185">
-        </div>
-      </div> -->
+      <h2 class="section-title my-1" style="font-size: 50px;">인기 영화</h2>
 
       <swiper class="swiper" :options="swiperOption">
-        <swiper-slide v-for="image in images" :key="image.poster_path"
+        <swiper-slide v-for="movie in movies" :key="movie.poster_path"
           style="list-style-type: none;" class="mx-4">
-          <b-card-img :src="'https://image.tmdb.org/t/p/w185' + `${image.poster_path}`" />
+          <b-card-img :src="'https://image.tmdb.org/t/p/w185' + `${movie.poster_path}`" @click="load"/>
         </swiper-slide>
         <div class="swiper-button-prev" slot="button-prev" />
         <div class="swiper-button-next" slot="button-next" />
 
       </swiper>
-
 
     </section>
   </div>
@@ -52,10 +34,9 @@
 
 <script>
 
-import axios from 'axios'
-// import carousel from 'vue-owl-carousel'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
+import { mapState } from 'vuex'
 
 // const SERVER_URL = process.env.VUE_APP_SERVER_URL
 // @ is an alias
@@ -67,30 +48,25 @@ export default {
   },
   data () {
     return {
-      images: [],
       swiperOption: { 
-        slidesPerView: 6,
-        spaceBetween: 30, 
+        slidesPerView: 'auto',
+        spaceBetween: 6,
+        autoplay: {
+        delay: 1000,
+        stopOnLastSlide: false,
+        disableOnInteraction: false
+        },
         loop: true,
         pagination: { el: '.swiper-pagination', clickable: true },
         navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-      }
+      },
+      // slide 누르면 움직이도록 하는 변수
+      slide: 0,
+      sliding: null,
     }
   },
-  mounted: function () {
-    this.getMovies()
-  },
   methods: {
-    getMovies: function () {
-      this.loading =true
-
-      axios.get('http://127.0.0.1:8000/movies/movielist/')
-      .then( res => {
-        console.log(res.data)
-        this.images = res.data[0][12]
-        // this.images = res.data
-      })
-    },
+    
     load() {
          // generate messages
       this.messages = Array.apply(null, Array(Math.floor(Math.random() * 100))).map((_, i) => i)
@@ -100,7 +76,25 @@ export default {
           container.scrollTop = container.scrollHeight;
       })
     },
+    // slide 이동을 위한 버튼
+    onSlideStart() {
+        this.sliding = true
+      },
+    onSlideEnd() {
+      this.sliding = false
+    },
+    // 영화 이미지 클릭 시 이동하는 함수
+    movieClick (res) {
+      console.log(res)
+      this.$router.push({ name: 'MovieDetail' })
+    },
   },
+  computed: {
+    ...mapState ([
+      'movies',
+    ]),
+  },
+
 
 }
 
@@ -131,10 +125,12 @@ export default {
 
     scroll-snap-align: start;
   }
+
   .swiper {
     height: 300px;
     width: auto;
   }
+
   .swiper-slide {
     display: flex;
     justify-content: center;
@@ -143,5 +139,4 @@ export default {
     padding: auto;
     margin: auto;
   }
-
 </style>
