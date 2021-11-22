@@ -22,3 +22,5 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## vue state data 가 중복해서 들어가게 되는거 좀 수정하면 괜찮을거 같아요

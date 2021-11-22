@@ -22,7 +22,7 @@
       <swiper class="swiper" :options="swiperOption">
         <swiper-slide v-for="movie in movies" :key="movie.id"
           style="list-style-type: none;" class="mx-4">
-          <b-card-img :src="`${movie.poster_path}`" :title="movie.title" @click="[movieClick(movie.id), goToMovie()]"/>
+          <b-card-img class="imgcard" :src="`${movie.poster_path}`" :title="movie.title" @click="[movieClick(movie.id), goToMovie()]"/>
         </swiper-slide>
         <div class="swiper-button-prev" slot="button-prev" />
         <div class="swiper-button-next" slot="button-next" />
@@ -74,10 +74,7 @@ export default {
          // generate messages
       this.messages = Array.apply(null, Array(Math.floor(Math.random() * 100))).map((_, i) => i)
       // ul is updated after tick
-      this.$nextTick(() => {
-        var container = this.$el.querySelector("#test");
-        container.scrollTop = container.scrollHeight;
-      })
+      
     },
     // slide 이동을 위한 버튼
     onSlideStart() {
@@ -156,5 +153,11 @@ export default {
     align-items: center;
     padding: auto;
     margin: auto;
+  }
+  .imgcard {
+    transition: all .2s linear;
+  }
+  .imgcard:hover {
+    transform: scale(1.4);
   }
 </style>

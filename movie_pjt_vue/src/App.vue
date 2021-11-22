@@ -29,10 +29,16 @@
             로 그 아 웃
           </b-button>
 
-          <b-button class="btn btn-link"
-          :to="{path: '/movie/MovieList'}" variant="link">
-            영 화 목 록
+          <b-button class="btn btn-link" v-b-toggle.collapse-1 variant="link">
+            장르별 영화보기
           </b-button>
+
+          <b-button>movieGenre</b-button>
+          <b-collapse id="collapse-1">
+            <b-card>
+              <p v-for="{genre, index} in movieGenre" :key="index">{{ genre }}</p>
+            </b-card>
+          </b-collapse>
 
           <b-button class="btn btn-link"
           :to="{path: '/accounts/signup'}" variant="link">
@@ -44,7 +50,6 @@
       <div class="container-fluid d-flex">
         <b-button v-b-toggle.sidebar-no-header v-b-toggle.sidebar-1 class="bg-transparent">
           <b-icon-list/>
-          <!-- <img :src="require('@/assets/list_icon.png')" style="image-rendering: auto;" alt="" v-b-toggle.sidebar-1 width="32" height="32"> -->
         </b-button>
         <!-- Search bar 제작 -->
         <div class="input-group ps-5 ">
@@ -62,7 +67,7 @@
 
 <script>
 import MovieList from '@/views/movie/MovieList'
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -75,6 +80,9 @@ export default {
     MovieList,
   },
   methods: {
+    ...mapState([
+      'movieGenre',
+    ]),
 
     logout: function () {
       localStorage.removeItem('jwt')
