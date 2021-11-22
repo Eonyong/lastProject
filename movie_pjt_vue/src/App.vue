@@ -25,7 +25,7 @@
           </b-button>
 
           <b-button class="btn btn-link" v-else
-          @click.native="logout" variant="link">
+          @click="logout" variant="link">
             로 그 아 웃
           </b-button>
 
@@ -62,6 +62,7 @@
 
 <script>
 import MovieList from '@/views/movie/MovieList'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -89,6 +90,14 @@ export default {
       // 3. true로 변경하고, 없으면 유지한다.
       this.login = true
     }
+  },
+  computed: {
+    ...mapActions([
+      'getMovies',
+    ]),
+  },
+  mounted() {
+    this.getMovies
   }
 }
 
