@@ -5,16 +5,18 @@
     <section class="my-3">
       <div class="text-white">
         <div class="d-flex justify-content-between">
-          <p>{{ movieId.data.release_date }}</p>
-          <h1>영화 제목: {{ movieId.data.title }}</h1>
-          <img v-if="!movieId.data.adult" class="bg-white" width="5%" :src="require(`@/assets/adult_sticker.png`)" alt="">
+          <div>
+            <h1>{{ movieId.data.title }}</h1>
+            <!-- <b-dd-text v-model="datetime"> {{ movieId.data.release_date }}</b-dd-text> -->
+          </div>
+          <img v-if="!movieId.data.adult" class="bg-white" width="5%" height="5%" :src="require(`@/assets/adult_sticker.png`)" alt="">
         </div>
         <hr>
-        <h1>줄거리</h1>
+        <h2>줄거리</h2>
           <!-- 18 over movie case icon -->
         <br>
         <!-- 줄거리 -->
-        <h2 style="text-color: white;">{{ movieId.data.overview }}</h2>
+        <h3 style="text-color: white;">{{ movieId.data.overview }}</h3>
 
       </div>
       <!-- 확인용 -->
