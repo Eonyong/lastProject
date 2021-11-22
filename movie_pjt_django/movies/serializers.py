@@ -21,7 +21,6 @@ class MovieListSerializer(serializers.ModelSerializer):
     model = Movie
     fields =('id', 'title', 'genre_ids', 'backdrop_path', 'poster_path', )
 
-
 class MovieSerializer(serializers.ModelSerializer):
       
   # # genre_ids = serializers.StringRelatedField(many=True)

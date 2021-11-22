@@ -18,7 +18,7 @@ class Movie(models.Model):
     original_title = models.CharField(max_length=255, null=True)
     overview = models.TextField(null=True)
     popularity = models.FloatField(null=True)
-    poster_path = models.TextField(null=True)
+    poster_path = models.TextField(null=True, )
     release_date = models.DateTimeField(null=True)
     title = models.CharField(max_length=255, null=True)
     video = models.BooleanField(null=True)

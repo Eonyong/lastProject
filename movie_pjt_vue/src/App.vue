@@ -9,6 +9,11 @@
         <!-- 오른쪽 컴포넌트 제작 -->
         <b-button-group vertical class="d-flex" style="text-align: center;">
           <!-- <li class="nav-item"><router-link to="/"> Home </router-link></li> -->
+          <b-button class="btn btn-link" :to="{path: '/'}"
+          variant="link">
+            메 인 화 면
+          </b-button>
+
           <b-button class="btn btn-link" :to="{path: '/accounts/login'}"
           v-if="login" variant="link">
             로 그 인
@@ -20,12 +25,12 @@
           </b-button>
 
           <b-button class="btn btn-link" v-else
-          @click.native="logout" variant="link">
+          @click="logout" variant="link">
             로 그 아 웃
           </b-button>
 
           <b-button class="btn btn-link"
-          :to="{path: '/'}" variant="link">
+          :to="{path: '/movie/MovieList'}" variant="link">
             영 화 목 록
           </b-button>
 
@@ -56,7 +61,8 @@
 </template>
 
 <script>
-
+import MovieList from '@/views/movie/MovieList'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -65,7 +71,9 @@ export default {
       login: false,
     }
   },
-
+  component: {
+    MovieList,
+  },
   methods: {
 
     logout: function () {
@@ -82,6 +90,14 @@ export default {
       // 3. true로 변경하고, 없으면 유지한다.
       this.login = true
     }
+  },
+  computed: {
+    ...mapActions([
+      'getMovies',
+    ]),
+  },
+  mounted() {
+    this.getMovies
   }
 }
 
@@ -89,11 +105,11 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Do Hyeon', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  white-space: nowrap;
+  white-space: wrap;
   padding: auto;
   margin: auto;
 }
@@ -109,10 +125,6 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
-}
-
-a {
-  text-decoration: none;
 }
 
 </style>
