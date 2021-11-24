@@ -12,7 +12,7 @@ export const auth = {
     login({ commit }, user) {
       return AuthService.login(user).then(
         (res) => {
-          console.log(user, res);
+          // console.log(user, res);
           commit("loginSuccess", user);
           return Promise.resolve(res);
         },
@@ -30,6 +30,7 @@ export const auth = {
       return AuthService.register(user).then(
         (response) => {
           commit("registerSuccess");
+          console.log(response.data)
           return Promise.resolve(response.data);
         },
         (error) => {

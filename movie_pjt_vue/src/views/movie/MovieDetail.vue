@@ -9,8 +9,8 @@
             <div>
               <h1>{{ movie.title }}</h1>
               <section class="d-flex flex-inline align-items-baseline">
-                <b-icon-heart aria-label="like_active" :key="movie.id" class="outline-white bg-transparent align-itmes-center" />
-                <b-icon-heart-fill aria-label="like_deactive" :key="movie.id" class="outline-white bg-transparent" />
+                <b-icon-heart v-if="currentUser" aria-label="like_active" :key="movie.id" class="outline-white bg-transparent align-itmes-center" />
+                <b-icon-heart-fill v-else aria-label="like_deactive" :key="movie.id" class="outline-white bg-transparent" />
                 <p class="px-3" style="font-size: x-large;">{{ movie.like_users.length }}명이 좋아합니다</p>
               </section>
             </div>
@@ -56,6 +56,11 @@ export default {
         .then((res) => {
           this.movie = res.data
         });
+    },
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.status.loggedIn
     },
   },
   created() {
