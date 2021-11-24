@@ -1,88 +1,128 @@
 <template>
-<div>
-  <section class="vh-100" style="background-color: #eee;">
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-lg-12 col-xl-11">
-          <div class="card text-black" style="border-radius: 25px;">
-            <div class="card-body p-md-5">
-              <div class="row justify-content-center">
-                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
-                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Log in</p>
-
-                  <form class="mx-1 mx-md-4">
-
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <div class="form-outline flex-fill mb-0">
-                        <label class="form-label" for="username">Your ID</label>
-                        <input type="text" id="username" class="form-control" placeholder="Enter your ID"
-                        v-model="credentials.username"/>
-                      </div>
-                    </div>
-
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <div class="form-outline flex-fill mb-0">
-                        <label class="form-label" for="password">Password</label>
-                        <input type="password" id="password" class="form-control" placeholder="Enter your Password"
-                        @keypress.enter="login(credentials)" v-model="credentials.password"/>
-                      </div>
-                    </div>
-                    
-                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <button type="submit"
-                      @click="login(credentials)" class="btn btn-primary btn-lg">Sign In</button>
-                    </div>
-
-                  </form>
-
-                </div>
-              </div>
+  <div id="Login">
+    <div class="col-md-12">
+      <div class="card card-container">
+        <img
+          id="profile-img"
+          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+          class="profile-img-card"
+        />
+        <form name="form" @submit.prevent="handleLogin">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              v-model="user.username"
+              type="text"
+              class="form-control"
+              name="username"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              v-model="user.password"
+              type="password"
+              class="form-control"
+              name="password"
+            />
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary btn-block" :disabled="loading">
+              <span
+                v-show="loading"
+                class="spinner-border spinner-border-sm"
+              ></span>
+              <span>Login</span>
+            </button>
+          </div>
+          <div class="form-group">
+            <div v-if="message" class="alert alert-danger" role="alert">
+              {{ message }}
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
-  </section>
-</div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
-
-
-// const SERVER_URL = process.env.VUE_APP_SERVER_URL
+import User from "@/models/user";
 
 export default {
-  name: 'Login',
-  data: function () {
+  name: "Login",
+  data() {
     return {
-      credentials: {
-        username: '',
-        password: '',
-      },
+      user: new User("", ""),
+      loading: false,
+      message: "",
+    };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push("/");
     }
   },
   methods: {
-    login: function (credentials) {
-      console.log(credentials)
-      //axios
-      axios.post(`http://15.164.229.252/accounts/login/`, this.credentials)
-      .then((res) => {
-        // console.log(res)
-        localStorage.setItem('jwt', res.data.token)
-        this.$emit('login') // app 컴포넌트에 로그인이 됐다고 신호를 보냄
-        this.$router.push({ name: 'Home' })
+    handleLogin() {
+      this.loading = true;
 
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    }
-  }
-}
+      if (this.user.username && this.user.password) {
+        this.$store.dispatch("auth/login", this.user).then(
+          () => {
+            this.$router.push("/");
+          },
+          (error) => {
+            this.loading = false;
+            this.message =
+              (error.response && error.response.data) ||
+              error.message ||
+              error.toString();
+          }
+        );
+      }
+    },
+  },
+};
 </script>
 
-<style>
+<style scoped>
+label {
+  display: block;
+  margin-top: 10px;
+}
 
+.card-container.card {
+  max-width: 350px !important;
+  padding: 40px 40px;
+}
+
+.card {
+  color: white;
+  background-color: #030605;
+  padding: 20px 25px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.profile-img-card {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
 </style>

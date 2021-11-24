@@ -7,7 +7,6 @@ import Signup from "@/views/accounts/Signup";
 
 import MovieList from "@/views/movie/MovieList";
 import MovieDetail from "@/views/movie/MovieDetail";
-import SearchMovies from "@/views/movie/SearchMovies";
 
 import ReviewList from "@/views/community/ReviewList";
 import ReviewDetail from "@/views/community/ReviewDetail";
@@ -43,12 +42,6 @@ const routes = [
     path: "/movie/:movie_id",
     name: "MovieDetail",
     component: MovieDetail,
-    props: true,
-  },
-  {
-    path: "/movie/search",
-    name: "SearchMovies",
-    component: SearchMovies,
     props: true,
   },
   {
