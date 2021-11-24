@@ -1,116 +1,111 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
-      <form name="form" @submit.prevent="handleRegister">
-        <div v-if="!successful">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input
-              v-model="user.username"
-              v-validate="'required|min:3|max:20'"
-              type="text"
-              class="form-control"
-              name="username"
-            />
-            <div
-              v-if="submitted && errors.has('username')"
-              class="alert-danger"
-            >{{errors.first('username')}}</div>
+  <div id="Signup">
+    <div class="col-md-12">
+      <div class="card card-container">
+        <img
+          id="profile-img"
+          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+          class="profile-img-card"
+        />
+        <form name="form" @submit.prevent="handleRegister">
+          <div v-if="!successful">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                v-model="user.username"
+                type="text"
+                class="form-control"
+                name="username"
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                v-model="user.email"
+                type="email"
+                class="form-control"
+                name="email"
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                v-model="user.password"
+                type="password"
+                class="form-control"
+                name="password"
+              />
+            </div>
+            <div class="form-group">
+              <label for="passwordConfirm">Password Confirmation</label>
+              <input
+                v-model="user.passwordConfirm"
+                type="password"
+                class="form-control"
+                name="passwordConfirm"
+              />
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary btn-block">Sign Up</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input
-              v-model="user.email"
-              v-validate="'required|email|max:50'"
-              type="email"
-              class="form-control"
-              name="email"
-            />
-            <div
-              v-if="submitted && errors.has('email')"
-              class="alert-danger"
-            >{{errors.first('email')}}</div>
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input
-              v-model="user.password"
-              v-validate="'required|min:6|max:40'"
-              type="password"
-              class="form-control"
-              name="password"
-            />
-            <div
-              v-if="submitted && errors.has('password')"
-              class="alert-danger"
-            >{{errors.first('password')}}</div>
-          </div>
-          <div class="form-group">
-            <button class="btn btn-primary btn-block">Sign Up</button>
-          </div>
-        </div>
-      </form>
+        </form>
 
-      <div
-        v-if="message"
-        class="alert"
-        :class="successful ? 'alert-success' : 'alert-danger'"
-      >{{message}}</div>
+        <div
+          v-if="message"
+          class="alert"
+          :class="successful ? 'alert-success' : 'alert-danger'"
+        >
+          {{ message }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import User from '@/models/user';
+import User from "@/models/user";
 
 export default {
-  name: 'Register',
+  name: "Signup",
   data() {
     return {
-      user: new User('', '', ''),
+      user: new User("", "", "", ""),
       submitted: false,
       successful: false,
-      message: ''
+      message: "",
     };
   },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    }
+    },
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push('/accounts/login');
+      this.$router.push("/accounts/login");
     }
   },
   methods: {
     handleRegister() {
-      this.message = '';
+      this.message = "";
       this.submitted = true;
-      this.$validator.validate().then(isValid => {
-        if (isValid) {
-          this.$store.dispatch('auth/register', this.user).then(
-            data => {
-              this.message = data.message;
-              this.successful = true;
-            },
-            error => {
-              this.message =
-                (error.response && error.response.data) ||
-                error.message ||
-                error.toString();
-              this.successful = false;
-            }
-          );
+      this.$store.dispatch("auth/register", this.user).then(
+        (data) => {
+          this.message = `${data.username}님 가입을 축하드립니다`;
+          this.successful = true;
+          setTimeout(()=>{this.$router.push("/accounts/login")}, 3000)
+        },
+        (error) => {
+          this.message =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+          this.successful = false;
         }
-      });
-    }
-  }
+      );
+    },
+  },
 };
 </script>
 
@@ -126,7 +121,8 @@ label {
 }
 
 .card {
-  background-color: #f7f7f7;
+  color: white;
+  background-color: #030605;
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
   margin-top: 50px;
