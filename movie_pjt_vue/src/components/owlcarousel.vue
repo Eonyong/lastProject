@@ -20,8 +20,7 @@
             id="hovering-img"
             :src="`${movie.poster_path_thumbnail}`"
             :title="movie.title"
-            @click="movieDetail(movie.id)"/>
-          <b-icon-heart id="heart-icon" class="outline-white bg-transparent" />
+            @click="movieDetail(movie.id)" />
         </swiper-slide>
         <div class="swiper-button-prev" slot="button-prev" />
         <div class="swiper-button-next" slot="button-next" />

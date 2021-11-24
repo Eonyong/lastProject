@@ -78,13 +78,9 @@
       </b-sidebar>
       <!-- Home 컴포넌트 제작 -->
       <div class="container-fluid d-flex">
-        <b-button
-          v-b-toggle.sidebar-no-header
-          v-b-toggle.sidebar-1
-          class="bg-transparent"
-        >
-          <b-icon-list />
-        </b-button>
+        <b-icon-list v-b-toggle.sidebar-no-header
+        v-b-toggle.sidebar-1
+        class="bg-white" style="height: 40px; width: 40px; opacity:.2;"/>
         <!-- Search bar 제작 -->
         <div class="input-group ps-5 align-items-end">
           <div id="navbar-search-autocomplete" class="form-outline">
@@ -96,7 +92,7 @@
             />
           <div role="dialog" style="top:12px; width: 375px; overflow: hidden auto; opacity:0.8" class="bg-black">
             <div>
-              <b-list-group>
+              <b-list-group v-model="searchText" v-if="searchText">
                 <b-list-group-item v-for="movies in searchmovies" :key="movies.title" :title="movies.title" @click="movieDetail(movies.id)">
                   {{ movies.title }}
                 </b-list-group-item>
@@ -132,26 +128,33 @@ export default {
       this.$router.push("/");
     },
     SearchMovie(text) {
-      axios.get(`http://15.164.229.252/movies/movielist/search?search=${text}`)
-      .then(res => {
-        const Data = []
-        res.data.filter(data => {
-          console.log(data['original_title'])
-          if (data['original_title'].includes(text)) {
-            Data.push({id: data.id, title: data.title})
-          }
-          })
-        // console.log(Data)
-        // const uniqData = Data.filter((thing, index) => {
-        //   const _thing = JSON.stringify(thing)
-        //   return index === Data.findIndex(obj => {
-        //     return JSON.stringify(obj) === _thing})
-        // })
-        this.searchmovies = Data
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      if (text !== '') {
+        axios.get(`http://15.164.229.252/movies/movielist/search?search=${text}`)
+        .then(res => {
+          const Data = []
+          // console.log(res.data)
+          res.data.filter(response => {
+            console.log({id: response.id, title: response.title})
+            if (!Data.includes({id: response.id, title: response.title}) && Data.length < 6) {
+              Data.push({id: response.id, title: response.title})
+              }
+            })
+          // const uniqData = Data.filter((thing, index) => {
+          //   const _thing = JSON.stringify(thing)
+          //   return index === Data.findIndex(obj => {
+          //     return JSON.stringify(obj) === _thing})
+          // })
+          this.searchmovies = Data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        
+      }
+      else {
+        this.searchText = ''
+        this.searchmovies = []
+      }
     },
     movieDetail(id) {
       
