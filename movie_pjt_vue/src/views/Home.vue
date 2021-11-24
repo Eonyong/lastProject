@@ -26,7 +26,7 @@ export default {
     };
   },
   methods: {
-    getMovieList: function () {
+    getMovieList() {
       axios.get("http://15.164.229.252/movies/movielist/").then((res) => {
         this.all_movies = res.data;
         console.log(this.all_movies);
@@ -34,10 +34,10 @@ export default {
     },
   },
   created() {
-    console.log("created");
-    this.getMovieList();
+    this.getMovieList()
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

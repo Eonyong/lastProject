@@ -54,7 +54,17 @@
 <script>
 export default {
   name: "HeroCarousel",
+  methods: {
+    onSlideStart() {
+      this.sliding = true;
+    },
+    onSlideEnd() {
+      this.sliding = false;
+    },
+  }
 };
 </script>
 
-<style></style>
+<style>
+
+</style>
