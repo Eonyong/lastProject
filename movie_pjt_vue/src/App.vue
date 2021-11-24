@@ -21,7 +21,7 @@ export default {
   font-family: "Do Hyeon", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: white;
   white-space: wrap;
   padding: auto;
   margin: auto;

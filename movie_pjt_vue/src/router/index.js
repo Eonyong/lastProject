@@ -8,6 +8,8 @@ import MovieList from "@/views/movie/MovieList";
 import MovieDetail from "@/views/movie/MovieDetail";
 import ReviewList from "@/views/community/ReviewList";
 import ReviewDetail from "@/views/community/ReviewDetail";
+import ReviewCreate from "@/views/community/ReviewCreate";
+import ReviewUpdate from "@/views/community/ReviewUpdate";
 
 Vue.use(VueRouter);
 
@@ -48,11 +50,23 @@ const routes = [
     component: ReviewList,
   },
   {
+    path: "/community/reviewcreate",
+    name: "ReviewCreate",
+    component: ReviewCreate,
+  },
+  {
+    path: "/community/reviewupdate/:review_id",
+    name: "ReviewUpdate",
+    component: ReviewUpdate,
+    props: true,
+  },
+  {
     path: "/community/:review_id",
     name: "ReviewDetail",
     component: ReviewDetail,
     props: true,
-  }
+  },
+
   // },
   // 향후 작성할 라우터
   // 리뷰 리스트

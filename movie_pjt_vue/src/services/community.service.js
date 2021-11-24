@@ -9,7 +9,18 @@ class CommunityService {
   }
 
   createReview(data) {
+    console.log('hidf')
+    console.log(data)
     return axios.post(API_URL, data, { headers: authHeader() });
+  }
+
+  updateReview(data) {
+    return axios.put(API_URL+`${data.id}`, data, { headers: authHeader() })
+  }
+
+  deleteReview(data) {
+    console.log('들어는왔음', data.review_id)
+    return axios.delete(API_URL+`${data.review_id}/`, { headers: authHeader() })
   }
 }
 

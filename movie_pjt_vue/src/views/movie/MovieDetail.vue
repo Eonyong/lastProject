@@ -26,8 +26,6 @@
           <!-- 줄거리 -->
           <h3 style="text-color: white">{{ movie.overview }}</h3>
         </div>
-        <!-- 확인용 -->
-        <h3>{{ movie }}</h3>
       </section>
     </div>
   </div>
@@ -54,6 +52,11 @@ export default {
   },
   created() {
     this.getMovie(this.$route.params.movie_id);
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
   },
 };
 </script>
