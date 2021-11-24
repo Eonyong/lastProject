@@ -62,14 +62,21 @@
           <b-icon-list />
         </b-button>
         <!-- Search bar 제작 -->
-        <div class="input-group ps-5">
+        <div class="input-group ps-5 align-items-end">
           <div id="navbar-search-autocomplete" class="form-outline">
             <input
-              type="search"
-              id="form1"
-              class="form-control bg-transparent"
+              type="text" v-model.trim="searchText"
+              autocapitalize="none"
+              class="form-control bg-transparent " style=" color: white;"
               placeholder="Search"
+              @keypress.enter="searchMovie(searchText)" 
             />
+          </div>
+          <div style="top:12px; width: 375px; overflow: hidden auto;" class="bg-primary">
+            <div aria-hidden="false">
+              <ul>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -78,10 +85,29 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "SideBar",
-  methods: {},
-};
+  data(){
+    return{
+      searchText: '',
+      all_movies: [],
+    }
+  },
+  methods: {
+    searchMovie(txt){
+      axios.get(`http://15.164.229.252/movies/movielist/search?search=${txt}`)
+      .then(res => {
+        console.log(res.data)
+        this.all_movies = res.data
+          this.$router.push({
+            name: "SearchMovies",
+          })
+      })
+    },
+  }
+}
 </script>
 
 <style>

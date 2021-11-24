@@ -8,13 +8,19 @@
           <div class="d-flex justify-content-between">
             <div>
               <h1>{{ movie.title }}</h1>
-              <!-- <b-dd-text v-model="datetime"> {{ movieId.data.release_date }}</b-dd-text> -->
+              <section class="d-flex flex-inline align-items-baseline">
+                <b-icon-heart aria-label="like_active" :key="movie.id" class="outline-white bg-transparent align-itmes-center" />
+                <b-icon-heart-fill aria-label="like_deactive" :key="movie.id" class="outline-white bg-transparent" />
+                <p class="px-3" style="font-size: x-large;">{{ movie.like_users }}명이 좋아합니다</p>
+              </section>
             </div>
+
             <img
-              v-if="movie.adult"
+              v-if="!movie.adult"
               class="bg-white"
               width="5%"
               height="5%"
+              animation="spin"
               :src="require(`@/assets/adult_sticker.png`)"
               alt=""
             />
@@ -44,13 +50,34 @@ export default {
     };
   },
   methods: {
-    getMovie: function (movie_id) {
+    // setToken: function () {
+    //   const token = localStorage.getItem("jwt")
+
+    //   const config = {
+    //     headers: {
+    //       Authorization: `JWT ${token}`,
+    //     }
+    //   }
+    //   return config
+    // },
+    getMovie (movie_id) {
       axios
         .get(`http://15.164.229.252/movies/movielist/${movie_id}`)
         .then((res) => {
-          this.movie = res.data;
+          this.movie = res.data
         });
     },
+    // getMovieLike (movie_id){
+    //   const config = this.setToken()
+    //   axios.post(`http://15.164.229.252/movies/movielist/${movie_id}/like/`, {}, config)
+    //   .then(res => {
+    //     console.log(res)
+    //   })
+    //   .catch(res => {
+    //     console.log(res)
+    //   })
+
+    // }
   },
   created() {
     this.getMovie(this.$route.params.movie_id);
@@ -58,4 +85,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#MovieDetail {
+  box-sizing: content-box;
+}
+</style>

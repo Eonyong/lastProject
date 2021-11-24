@@ -27,7 +27,8 @@ export default {
   },
   methods: {
     getMovieList() {
-      axios.get("http://15.164.229.252/movies/movielist/").then((res) => {
+      axios.get("http://15.164.229.252/movies/movielist/")
+      .then((res) => {
         this.all_movies = res.data;
         console.log(this.all_movies);
       });

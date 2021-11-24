@@ -51,7 +51,7 @@
 import axios from 'axios'
 
 
-const SERVER_URL = process.env.VUE_APP_SERVER_URL
+// const SERVER_URL = process.env.VUE_APP_SERVER_URL
 
 export default {
   name: 'Login',
@@ -67,7 +67,7 @@ export default {
     login: function (credentials) {
       console.log(credentials)
       //axios
-      axios.post(`${SERVER_URL}/accounts/login/`, this.credentials)
+      axios.post(`http://15.164.229.252/accounts/login/`, this.credentials)
       .then((res) => {
         // console.log(res)
         localStorage.setItem('jwt', res.data.token)

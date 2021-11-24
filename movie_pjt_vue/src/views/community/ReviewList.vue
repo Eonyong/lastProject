@@ -2,17 +2,16 @@
 <template>
   <div class="ReviewList">
     <br><br><br>
-    <b-list-group >
-      <b-list-group-item class="d-flex justify-content-between align-items-center"
+    <b-list-group class="d-flex">
+      <b-list-group-item class="d-flex justify-content-between align-items-center font-black"
         v-for="(review, idx) in reviews"
         :key="idx"
-        @click="reviewDetail(review.id)"
         >
-        {{review.title}}
+        <b-button @click="reviewDetail(review.id)" variant="transparent">{{review.title}}</b-button>
         <b-badge pill variant="primary">{{review.claps_count}} 1</b-badge>
       </b-list-group-item>
     </b-list-group>
-        <ReviewDetail />
+      <ReviewDetail />
 
   </div>
 </template>
