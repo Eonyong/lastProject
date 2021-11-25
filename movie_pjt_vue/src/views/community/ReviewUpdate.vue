@@ -29,8 +29,8 @@ export default {
     return {
       review:{
         'movie': {"id":''}, 
-         'title': "", 
-         'content': "", 
+         'title': "",
+         'content': "",
          'rank':""
       },
       movie_list: [],

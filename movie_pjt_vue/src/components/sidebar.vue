@@ -23,7 +23,7 @@
         shadow
       >
         <div v-if="currentUser">
-          {{ currentUser.username }}
+          {{ currentUser }}
         </div>
 
         <!-- 오른쪽 컴포넌트 제작 -->

@@ -26,6 +26,7 @@
           <!-- 줄거리 -->
           <h3 style="text-color: white">{{ movie.overview }}</h3>
         </div>
+        {{movie}}
       </section>
     </div>
   </div>

@@ -1,129 +1,97 @@
 <template>
   <div class="autocomplete">
     <input
-      type="text"
-      @input="onChange"
       v-model="search"
-      @keydown.down="onArrowDown"
-      @keydown.up="onArrowUp"
-      @keydown.enter="onEnter"
+      @input="onChange"
+      type="text"
     />
     <ul
-      id="autocomplete-results"
       v-show="isOpen"
       class="autocomplete-results"
     >
       <li
-        class="loading"
-        v-if="isLoading"
-      >
-        Loading results...
-      </li>
-      <li
-        v-else
         v-for="(result, i) in results"
         :key="i"
-        @click="setResult(result)"
         class="autocomplete-result"
-        :class="{ 'is-active': i === arrowCounter }"
+        @click="getMovieId(result)"
       >
-        {{ result }}
+        <div class="d-flex flex-row justify-content-between container">
+        <div class="col-4">
+          <img :src=result.backdrop_path_thumbnail alt="Girl in a jacket" width="100">
+        </div>
+        <div class="col-8">{{ result.title }}</div>
+        </div>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+// import debounce from 'debounce'
 
+export default {
+  name: 'SearchAutocomplete',
+  props: {
+    items: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
+  },
+  data() {
+    return {
+      search: '',
+      results: [],
+      isOpen: false,
+      isLoading: false,
+    };
+  },
+  watch:{
+  search: async function(value){
+  if(value.length >= 2){
+  this.results = value;
 
-  export default {
-    name: 'SearchAutocomplete',
-    props: {
-      items: {
-        type: Array,
-        required: false,
-        default: () => [],
-      },
-      isAsync: {
-        type: Boolean,
-        required: false,
-        default: false,
-      },
-    },
-    data() {
-      return {
-        isOpen: false,
-        results: [],
-        search: '',
-        isLoading: false,
-        arrowCounter: -1,
-      };
-    },
-    watch: {
-      
-      items: function (value, oldValue) {
-        if (value.length !== oldValue.length) {
-          this.results = value;
-          this.isLoading = false;
-        }
-      },
-    },
-    mounted() {
+  const res = await axios.get('http://15.164.229.252/movies/movielist/search',  {params: {search: this.search}})    
+  this.results = res.data.slice(0, 10);
+  
+  }
+  }
+  },
+  mounted() {
       document.addEventListener('click', this.handleClickOutside)
     },
-    destroyed() {
+  destroyed() {
       document.removeEventListener('click', this.handleClickOutside)
+  },
+  methods: {
+    async filterResults() {
+      this.isLoading = false
     },
-    methods: {
-      setResult(result) {
-        this.search = result;
-        this.isOpen = false;
-      },
-      filterResults() {
-        this.results = this.items.filter((item) => {
-          return item.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
-        });
-      },
-      onChange() {
-        this.$emit('input', this.search);
-
-      },
-      created() {
-        this.getMovie(this.$route.params.movie_id);
-        
-        if (this.isAsync) {
-          this.isLoading = true;
-        } else {
-          this.filterResults();
-          this.isOpen = true;
-        }
-      },
-      handleClickOutside(event) {
+    onChange() {
+    if(!this.isLoading){
+    this.isLoading = true
+      this.filterResults();
+      this.isOpen = true;
+    }
+    },
+    getMovieId(movie) {
+      this.search = movie.title
+      this.$emit('movieSelect', movie.id)
+      this.isOpen=false;
+    },
+    handleClickOutside(event) {
         if (!this.$el.contains(event.target)) {
+
           this.isOpen = false;
-          this.arrowCounter = -1;
         }
       },
-      onArrowDown() {
-        if (this.arrowCounter < this.results.length) {
-          this.arrowCounter = this.arrowCounter + 1;
-        }
-      },
-      onArrowUp() {
-        if (this.arrowCounter > 0) {
-          this.arrowCounter = this.arrowCounter - 1;
-        }
-      },
-      onEnter() {
-        this.search = this.results[this.arrowCounter];
-        this.isOpen = false;
-        this.arrowCounter = -1;
-      },
-    },
-  };
+  }
+}
 </script>
 
-<style>
+
+<style scoped>
   .autocomplete {
     position: relative;
   }
@@ -132,7 +100,7 @@
     padding: 0;
     margin: 0;
     border: 1px solid #eeeeee;
-    height: 120px;
+    height: 300px;
     overflow: auto;
   }
 
