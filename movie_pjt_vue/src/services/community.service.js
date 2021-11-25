@@ -9,8 +9,6 @@ class CommunityService {
   }
 
   createReview(data) {
-    console.log('hidf')
-    console.log(data)
     return axios.post(API_URL, data, { headers: authHeader() });
   }
 
@@ -19,13 +17,18 @@ class CommunityService {
   }
 
   deleteReview(data) {
-    console.log('들어는왔음', data.review_id)
     return axios.delete(API_URL+`${data.review_id}/`, { headers: authHeader() })
   }
 
   createComment(review,comment) {
-    console.log(comment, review.review_id)
     return axios.post(API_URL+`${review.review_id}/comment/`, {content:comment},{ headers: authHeader() })
+  }
+
+  deleteComment(review, comment_id) {
+    return axios.delete(API_URL+`${review.review_id}/comment/`, { headers: authHeader() , data: {'id':comment_id}})
+  }
+  reviewClaps(review) {
+    return axios.post(API_URL+`${review.review_id}/claps/`, {},{ headers: authHeader() })
   }
 }
 

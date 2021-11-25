@@ -23,7 +23,7 @@
         no-header
         shadow
       >
-      <b-card class="overflow-hidden text-white bg-transparent" v-if="currentUser">
+      <b-card class="overflow-hidden text-white bg-transparent" v-if="loggedUser">
         <b-row no-gutters >
           <b-col md="6">
             <b-card-img id="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -31,7 +31,7 @@
           </b-col>
           <b-col md="6" >
             <b-card-body class="flex-wrap">
-              {{ currentUser.username }}의 영화관
+              {{ loggedUser }}의 영화관
               <b-button
                 class="btn btn-link text-decoration-none"
                 variant="link"
@@ -102,6 +102,7 @@
 
 <script>
 import axios from 'axios'
+import authHeader from '@/services/auth-header'
 
 export default {
   name: "SideBar",
@@ -109,6 +110,7 @@ export default {
     return {
       searchText: '',
       searchmovies: [],
+      loggedUser: '',
     }
   },
   computed: {
@@ -153,6 +155,16 @@ export default {
       })
 
     },
+    userName() {
+      axios.post(`http://15.164.229.252/accounts/get-user-name/`, {}, {headers: authHeader()})
+      .then(res => {
+        this.loggedUser = res.data.username
+        console.log(this.loggedUser)
+      })
+    },
+  },
+  created() {
+    this.userName()
   }
 };
 </script>

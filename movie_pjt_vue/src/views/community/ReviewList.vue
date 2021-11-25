@@ -1,42 +1,32 @@
 
 <template>
   <div class="ReviewList">
-
     <div class="container">
-    <b-list-group >
-      <b-list-group-item class="flex-column align-items-start"
-        v-for="(review, idx) in reviews"
-        :key="idx"
-        >
-    <div class="d-flex w-100 justify-content-between">
-      <div>
-      <h5 class="mb-1">
-        {{review.title}}</h5>
-      <span>  {{review.movie.title}}</span> <span>        <i class="fas fa-star" v-for="idx in review.rank" :key=idx></i></span>
-      </div>
+      <b-list-group >
+        <b-list-group-item class="flex-column align-items-start"
+        v-for="(review, idx) in reviews" :key="idx" @click="reviewDetail(review.id)">
+          <div class="d-flex w-100 justify-content-between">
+            <h3>{{review.title}}</h3>
+            <hr>
+            <small>created at {{review.created_at.slice(0,10)}}</small>
+          </div>
+          <div>
+            <span>about {{review.movie.title}}</span>
+            <span>(<b-icon-star-fill animation="spin" variant="warning" v-for="idx in review.rank" :key=idx />)</span>
+          </div>
+          <p class="mb-1">리뷰 내용: {{review.content.slice(0, 50)}}...</p>
+          <div class="d-flex w-100 justify-content-between">
+            <small>작성자 - {{review.user}}</small>
+            <small><b-icon-heart-fill variant="danger" />  {{review.claps_count}}</small>
+          </div>
+          <b-badge pill variant="primary">{{review.claps_count}} 1</b-badge>
+        </b-list-group-item>
+      </b-list-group>
 
-
-      <small>created at {{review.created_at.slice(0,10)}}</small>
-    </div>
-
-    <p class="mb-1">
-      {{review.content.slice(0, 50)}}...
-    </p>
-
-    <div class="d-flex w-100 justify-content-between">
-    <small><i class="fas fa-user"></i>{{review.user}}</small>
-    <small>   <i class="fas fa-heart"></i>  {{review.claps_count}}</small>
-    </div>
-
-
-
-
-        <b-badge pill variant="primary">{{review.claps_count}} 1</b-badge>
-      </b-list-group-item>
-    </b-list-group>
-
+  <div style="text-align: end;">
+    <b-icon-pen-fill class="align-items-end" variant="primary" @click="reviewCreate()" /> 
+  </div>
 </div>
-<span @click="reviewCreate()">create</span>
   </div>
 </template>
 

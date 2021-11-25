@@ -1,6 +1,13 @@
 <template>
   <div id="HeroCarousel">
-    <div class="align-items-end">오늘의 날씨: <img :src="weather.weather_icon" alt=""> {{ weather.weather_description }} </div>
+    <div class="d-flex align-items-baseline justify-content-between" style="height: 100%">
+      <div>
+        오늘의 날씨: <img :src="weather.weather_icon" alt=""> {{ weather.weather_description }}
+      </div>
+      <div>
+        현재 시간: {{ now }}
+      </div>
+    </div>
     <b-carousel
       ref="myCarousel"
       controls fade
@@ -8,10 +15,10 @@
       background="#fffff"
       img-width="1024"
       img-height="480"
-      style="text-shadow: 1px 1px 2px #333;"
+      style="text-shadow: 2px 2px 2px #333;"
     >
       <b-carousel-slide v-for="recomm in recomMovies"
-      :caption="recomm.title" :key="recomm.id" :img-src="recomm.backdrop_path" />
+      :caption="recomm.title" caption-tag="h1" :key="recomm.id" :img-src="recomm.backdrop_path" />
 
     </b-carousel>
   </div>
@@ -24,6 +31,7 @@ export default {
   name: "HeroCarousel",
   data() {
       return {
+        now: "00:00:00",
         slide: 0,
         sliding: null,
         recomMovies: [],
@@ -55,11 +63,15 @@ export default {
             location.reload();
         }
       })
-
     },
+    time() {
+      const date = new Date()
+      this.now = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+    }
   },
   created() {
     this.weatherRecom()
+    this.time()
   }
 }
 </script>

@@ -4,13 +4,13 @@
     <div class="mt-2">Title: </div>
     <b-form-input v-model="review.title" placeholder="Enter title"></b-form-input>
     <div class="mt-2">Content: </div>
-    <b-form-input v-model="review.content" placeholder="Enter content"></b-form-input>
+    <b-form-textarea rows="10" v-model="review.content" placeholder="Enter content"></b-form-textarea>
     <div class="mt-2">Movie: </div>
     <SearchAutocomplete @movieSelect='movieSelect'/>
 
 
   <div class="mt-2">
-    <label for="rating-inline">Rank: </label>
+    <label for="rating-inline">Rank: </label> <br>
     <b-form-rating id="rating-inline" inline value="4" v-model="review.rank"></b-form-rating>
   </div>
 
