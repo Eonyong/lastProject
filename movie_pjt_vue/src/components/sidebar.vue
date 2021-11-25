@@ -18,17 +18,18 @@
         class="bg-transparent"
         aria-labelledby="sidebar-no-header-title"
         backdrop
-        backdrop-variant="transparent"
+        backdrop-variant="dark"
+        bg-variant="dark"
         no-header
         shadow
       >
-      <b-card class="overflow-hidden" v-if="currentUser">
-        <b-row no-gutters>
+      <b-card class="overflow-hidden text-white bg-transparent" v-if="currentUser">
+        <b-row no-gutters >
           <b-col md="6">
             <b-card-img id="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
               class="profile-img-card"/>
           </b-col>
-          <b-col md="6">
+          <b-col md="6" >
             <b-card-body class="flex-wrap">
               {{ currentUser.username }}의 영화관
               <b-button
@@ -43,34 +44,24 @@
       </b-card>
 
         <!-- 오른쪽 컴포넌트 제작 -->
-        <b-button-group vertical class="d-flex text-decoration-none" style="text-align: center">
-          <b-button class="btn btn-link text-decoration-none" :to="{ path: '/' }" variant="link">
-            메 인 화 면
+        <b-button-group vertical class="d-flex text-decoration-none " style="text-align: center">
+          <b-button class="btn btn-link text-decoration-none text-white"
+            :to="{ path: '/' }" variant="link">
+              메 인 화 면
           </b-button>
 
-          <b-button
-            class="btn btn-link text-decoration-none"
-            v-if="!currentUser"
-            :to="{ path: '/accounts/signup' }"
-            variant="link"
-          >
+          <b-button class="btn btn-link text-decoration-none text-white"
+            v-if="!currentUser" :to="{ path: '/accounts/signup' }" variant="link">
             회 원 가 입
           </b-button>
 
-          <b-button
-            class="btn btn-link text-decoration-none"
-            v-if="!currentUser"
-            :to="{ path: '/accounts/login' }"
-            variant="link"
-          >
+          <b-button class="btn btn-link text-decoration-none text-white"
+            v-if="!currentUser" :to="{ path: '/accounts/login' }" variant="link">
             로 그 인
           </b-button>
 
-          <b-button
-            class="btn btn-link text-decoration-none"
-            :to="{ path: '/community/reviewlist' }"
-            variant="link"
-          >
+          <b-button class="btn btn-link text-decoration-none text-white"
+            :to="{ path: '/community/reviewlist' }" variant="link">
             모 든 리 뷰 모 아 보 기
           </b-button>
           
@@ -82,7 +73,7 @@
         v-b-toggle.sidebar-1
         class="bg-white" style="height: 40px; width: 40px; opacity:.2;"/>
         <!-- Search bar 제작 -->
-        <div class="input-group ps-5 align-items-end">
+        <div class="input-group ps-5 align-items-end justify-content-center">
           <div id="navbar-search-autocomplete" class="form-outline">
             <b-form-input
               type="text" v-model.trim="searchText"

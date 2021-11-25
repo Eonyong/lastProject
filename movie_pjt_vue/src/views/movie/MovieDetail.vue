@@ -21,7 +21,7 @@
             </div>
 
             <img
-              v-if="!movie.adult"
+              v-if="movie.adult"
               class="bg-white"
               width="5%"
               height="5%"
