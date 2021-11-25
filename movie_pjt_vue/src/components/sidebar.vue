@@ -88,12 +88,12 @@
               type="text" v-model.trim="searchText"
               autocapitalize="none"
               class="form-control bg-transparent " style=" color: white;"
-              placeholder="Search" @input="SearchMovie(searchText)"
+              placeholder="Search" v-once @input="SearchMovie(searchText)"
             />
           <div role="dialog" style="top:12px; width: 375px; overflow: hidden auto; opacity:0.8" class="bg-black">
             <div>
               <b-list-group v-model="searchText" v-if="searchText">
-                <b-list-group-item v-for="movies in searchmovies" :key="movies.title" :title="movies.title" @click="movieDetail(movies.id)">
+                <b-list-group-item v-for="movies in searchmovies" :key="movies.id"  @click="movieDetail(movies.id)">
                   {{ movies.title }}
                 </b-list-group-item>
               </b-list-group>
@@ -131,25 +131,14 @@ export default {
       if (text !== '') {
         axios.get(`http://15.164.229.252/movies/movielist/search?search=${text}`)
         .then(res => {
-          const Data = []
-          // console.log(res.data)
-          res.data.filter(response => {
-            console.log({id: response.id, title: response.title})
-            if (!Data.includes({id: response.id, title: response.title}) && Data.length < 6) {
-              Data.push({id: response.id, title: response.title})
-              }
-            })
-          // const uniqData = Data.filter((thing, index) => {
-          //   const _thing = JSON.stringify(thing)
-          //   return index === Data.findIndex(obj => {
-          //     return JSON.stringify(obj) === _thing})
-          // })
+          const Data = res.data.filter((value, index, self) => {
+              return self.indexOf(value) === index
+          })
           this.searchmovies = Data
-        })
+          })
         .catch(err => {
           console.log(err)
         })
-        
       }
       else {
         this.searchText = ''
@@ -161,7 +150,13 @@ export default {
       this.$router.push({
         path: `/movie/${id}`,
         params: { movie_id: id },
-      });
+      })
+      .catch(error => {
+        if(error.name === "NavigationDuplicated" ){
+            location.reload();
+        }
+      })
+
     },
   }
 };

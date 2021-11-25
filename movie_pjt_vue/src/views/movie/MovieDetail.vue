@@ -3,7 +3,7 @@
     <div class="container">
       <!-- datail page movie backdrop image -->
       <img v-if="movie.backdrop_path" :src="movie.backdrop_path" alt="" width="100%" />
-      <img-blank v-else alt="" width="100%" />
+      <img v-else alt="" blank width="100%" />
       
       <section class="my-3">
         <div class="text-white">
