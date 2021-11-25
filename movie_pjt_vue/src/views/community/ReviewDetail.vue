@@ -65,6 +65,12 @@ export default {
   // component: {
   //   Comment
   // },
+  watch: {
+    comments: function () {
+      this.$router.push(`/community/${this.review['review_id']}`)
+    },
+    immediate: true
+  },
   methods: {
     getReview: function (review_id) {
       axios
@@ -90,6 +96,7 @@ export default {
 
       this.review['review_id'] = parseInt(this.reviewid)
       const response = await CommunityService.createComment(this.review, this.new_comment)
+      
       console.log(response)
     },
   },
