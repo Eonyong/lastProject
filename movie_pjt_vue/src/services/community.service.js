@@ -25,7 +25,7 @@ class CommunityService {
 
   createComment(review,comment) {
     console.log(comment, review.review_id)
-    return axios.post(API_URL+`${review.review_id}/comment`, {content:comment},{ headers: authHeader() })
+    return axios.post(API_URL+`${review.review_id}/comment/`, {content:comment},{ headers: authHeader() })
   }
 }
 
