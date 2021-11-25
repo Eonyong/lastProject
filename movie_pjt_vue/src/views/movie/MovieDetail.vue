@@ -10,14 +10,13 @@
           <div class="d-flex justify-content-between">
             <div>
               <div class="d-flex">
-
                 <h1>{{ movie.title }}&nbsp;|&nbsp;</h1>
                 <h1 >평점: {{ movie.vote_average }}/10</h1>
               </div>
               <section class="d-flex flex-inline align-items-baseline">
-                <b-icon-heart v-if="currentUser" @click="movieLike(movie.id)" aria-label="like_active" :key="movie.id" class="outline-white bg-transparent align-itmes-center" />
-                <b-icon-heart-fill v-else :key="movie.id" class="outline-white bg-transparent" />
-                <p class="px-3" :v-model="userId" style="font-size: x-large;">{{ userId }}명이 좋아합니다</p>
+                <b-icon-heart-fill v-if="flag" @click="[userName(), movieLike(movie.id)]" :key="movie.id" class="outline-white bg-transparent" />
+                <b-icon-heart v-else @click="[userName(), movieLike(movie.id)]" :key="movie.id" class="outline-white bg-transparent align-itmes-center" />
+                <p class="px-3" :v-model="like_members" style="font-size: x-large;">{{ like_members }}명이 좋아합니다</p>
               </section>
             </div>
 
@@ -49,15 +48,17 @@
 
 <script>
 import axios from "axios";
-
+import authHeader from '@/services/auth-header'
 
 export default {
   name: "MovieDetail",
   data: function () {
     return {
       movie: Object,
-      userId: 0,
       movieRelavie: Object,
+      like_members: 0,
+      loggedUser: '',
+      flag: false,
     };
   },
   methods: {
@@ -66,6 +67,14 @@ export default {
         .get(`http://15.164.229.252/movies/movielist/${movie_id}`)
         .then((res) => {
           this.movie = res.data
+          this.like_members = res.data.like_users.length
+          this.userName()
+          res.data.like_users.filter((value, index) => {
+          if (value.username === this.loggedUser) {
+            this.flag = true
+            console.log(index)
+          }
+        })
         });
     },
     getMovieList(id) {
@@ -75,6 +84,27 @@ export default {
         console.log(this.movieRelavie)
       });
     },
+    movieLike(movie_id) {
+      axios.post(`http://15.164.229.252/movies/movielist/${movie_id}/like/`, {},
+      { headers: authHeader()})
+      .then(res => {
+        this.like_members = res.data.like_users.length
+        this.flag = !this.flag
+        // res.data.like_users.filter((value, index) => {
+        //   if (value.username === this.loggedUser) {
+        //     this.flag = !this.flag
+        //     console.log(index)
+        //   }
+        // })
+      })
+    },
+    userName() {
+      axios.post(`http://15.164.229.252/accounts/get-user-name/`, {}, {headers: authHeader()})
+      .then(res => {
+        this.loggedUser = res.data.username
+        console.log(this.loggedUser)
+      })
+    }
   },
   computed: {
     currentUser() {
@@ -82,7 +112,7 @@ export default {
     },
   },
   created() {
-    this.getMovie(this.$route.params.movie_id);
+    this.getMovie(this.$route.params.movie_id)
   },
 };
 </script>

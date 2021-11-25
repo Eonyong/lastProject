@@ -88,13 +88,16 @@
               type="text" v-model.trim="searchText"
               autocapitalize="none"
               class="form-control bg-transparent " style=" color: white;"
-              placeholder="Search" v-once @input="SearchMovie(searchText)"
+              placeholder="Search" @input="SearchMovie(searchText)"
             />
           <div role="dialog" style="top:12px; width: 375px; overflow: hidden auto; opacity:0.8" class="bg-black">
             <div>
               <b-list-group v-model="searchText" v-if="searchText">
                 <b-list-group-item v-for="movies in searchmovies" :key="movies.id"  @click="movieDetail(movies.id)">
-                  {{ movies.title }}
+                  <div @click="movieDetail(movies.id)">
+                    <b-img :src="movies.poster_path_thumbnail" style="width:10%"/>
+                    {{ movies.title }}
+                  </div>
                 </b-list-group-item>
               </b-list-group>
             </div>
@@ -134,7 +137,8 @@ export default {
           const Data = res.data.filter((value, index, self) => {
               return self.indexOf(value) === index
           })
-          this.searchmovies = Data
+          console.log(res.data)
+          this.searchmovies = Data.slice(0, 10)
           })
         .catch(err => {
           console.log(err)
