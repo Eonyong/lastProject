@@ -1,6 +1,6 @@
 <template>
   <div id="Home">
-    <HeroCarousel />
+    <HeroCarousel class="container" style="width: 90%"/>
     <OwlCarousel
       v-for="(movies, idx) in all_movies"
       :key="idx"
@@ -23,6 +23,7 @@ export default {
   data: function () {
     return {
       all_movies: [],
+      recomMovies: [],
     };
   },
   methods: {
@@ -33,6 +34,7 @@ export default {
         console.log(this.all_movies);
       });
     },
+    
   },
   created() {
     this.getMovieList()
@@ -41,4 +43,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

@@ -86,12 +86,6 @@ export default {
       .then(res => {
         this.like_members = res.data.like_users.length
         this.flag = !this.flag
-        // res.data.like_users.filter((value, index) => {
-        //   if (value.username === this.loggedUser) {
-        //     this.flag = !this.flag
-        //     console.log(index)
-        //   }
-        // })
       })
     },
     userName() {
@@ -109,12 +103,7 @@ export default {
   },
   created() {
     this.getMovie(this.$route.params.movie_id)
-  },
-  computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    },
-  },
+  }
 };
 </script>
 

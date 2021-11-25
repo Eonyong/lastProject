@@ -1,69 +1,68 @@
 <template>
   <div id="HeroCarousel">
     <b-carousel
-      id="carousel-1"
-      controls
-      indicators
-      fade
-      aria-hidden="true"
-      :interval="2500"
-      img-width="800px"
-      img-height="500px"
-      label-prev=""
-      label-next=""
-      @sliding-start="onSlideStart"
-      @sliding-end="onSlideEnd"
+      ref="myCarousel"
+      controls fade
+      :interval="2000"
+      background="#fffff"
+      img-width="1024"
+      img-height="480"
+      style="text-shadow: 1px 1px 2px #333;"
     >
-      <b-carousel-slide
-        img-src="https://image.tmdb.org/t/p/original/cinER0ESG0eJ49kXlExM0MEWGxW.jpg"
-      >
-        <b-button
-          variant="link text-white"
-          style="
-            font-size: -webkit-xxx-large;
-            text-decoration: none;
-            font-color: white;
-          "
-          >"샹치"</b-button
-        >
-      </b-carousel-slide>
+      <b-carousel-slide v-for="recomm in recomMovies"
+      :caption="recomm.title" :key="recomm.id" :img-src="recomm.backdrop_path" />
 
-      <b-carousel-slide
-        img-src="https://image.tmdb.org/t/p/original/u5Fp9GBy9W8fqkuGfLBuuoJf57Z.jpg"
-      >
-        <b-button
-          variant="link text-white"
-          style="
-            font-size: -webkit-xxx-large;
-            text-decoration: none;
-            font-color: white;
-          "
-          >"No Time to Die"</b-button
-        >
-      </b-carousel-slide>
-
-      <!-- <b-carousel-slide v-for="movie in movies" :key="movie.backdrop_path" 
-      v-bind:img-src="`${movie.backdrop_path}`">
-      <b-button variant="link text-white" style="font-size: -webkit-xxx-large; text-decoration: none; font-color: white;" @click="[movieClick(movie.id), goToMovie()]">{{ movie.title }}</b-button>
-      </b-carousel-slide> -->
     </b-carousel>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "HeroCarousel",
+  data() {
+      return {
+        slide: 0,
+        sliding: null,
+        recomMovies: [],
+      }
+    },
   methods: {
-    onSlideStart() {
-      this.sliding = true;
+    weatherRecom() {
+      axios.get('http://15.164.229.252/movies/movielist/recommend/')
+      .then(res => {
+        this.recomMovies = res.data.recommend_movies
+      })
     },
-    onSlideEnd() {
-      this.sliding = false;
+    prev() {
+        this.$refs.myCarousel.prev()
+      },
+    next() {
+      this.$refs.myCarousel.next()
     },
+    movieDetail(id) {
+      
+      this.$router.push({
+        path: `/movie/${id}`,
+        params: { movie_id: id },
+      })
+      .catch(error => {
+        if(error.name === "NavigationDuplicated" ){
+            location.reload();
+        }
+      })
+
+    },
+  },
+  created() {
+    this.weatherRecom()
   }
-};
+}
 </script>
 
 <style>
 
 </style>
+
+recomMovies
