@@ -7,7 +7,6 @@
       <b-list-group-item class="flex-column align-items-start"
         v-for="(review, idx) in reviews"
         :key="idx"
-        @click="reviewDetail(review.id)"
         >
     <div class="d-flex w-100 justify-content-between">
       <div>

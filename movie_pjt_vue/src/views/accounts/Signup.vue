@@ -52,7 +52,7 @@
         </form>
 
         <div
-          v-if="message"
+          v-if="successful"
           class="alert"
           :class="successful ? 'alert-success' : 'alert-danger'"
         >

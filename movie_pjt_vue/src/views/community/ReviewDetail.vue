@@ -96,7 +96,6 @@ export default {
 
   created() {
     this.getReview(this.$route.params.review_id);
-    // console.log(this.review)
   },
 };
 
