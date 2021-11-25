@@ -9,9 +9,7 @@
     <p>{{review.content}}</p>
 
     <i class="far fa-heart"></i>  {{review.claps_count}}
-    <b-button class="m-2" type="submit" variant="primary"
-     @click="updateButton()"
-     :original_review=review>Update</b-button>
+
     <b-button class="m-2" type="submit" variant="danger" @click="deleteButton()">Delete</b-button>
 
     <div class="comments">
@@ -24,20 +22,20 @@
               <h5 class="mb-1">
               {{comment.content}}</h5>
               <span>{{comment.user}}</span>
+              {{comment.id}}
+              <b-button class="m-2" type="submit" variant="danger" @click="deleteCommentButton(comment.id, idx)">Delete</b-button>
             </div>
         </b-list-group-item>
       </b-list-group>
       <b-row class="my-1">
         <b-col sm="10">
-          <b-form-input v-model="new_comment" id="input-small" size="sm" placeholder="Enter your comment"></b-form-input>
+          <b-form-input v-model="new_comment.content" id="input-small" size="sm" placeholder="Enter your comment"></b-form-input>
         </b-col>
       </b-row>
       <b-button class="m-2" type="submit" variant="primary"
       @click="createCommentButton()"
       >Create</b-button>
-      {{new_comment}}
     </div>
-
 
 
 
@@ -56,7 +54,10 @@ export default {
   data() {
     return {
       reviewid: 0,
-      new_comment: ''
+      new_comment: {
+        'content': '',
+        'user': ''
+      },
     }
   },
   props: {
@@ -65,11 +66,10 @@ export default {
   // component: {
   //   Comment
   // },
-  watch: {
-    comments: function () {
-      this.$router.push(`/community/${this.review['review_id']}`)
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
     },
-    immediate: true
   },
   methods: {
     getReview: function (review_id) {
@@ -88,16 +88,20 @@ export default {
       setTimeout(()=>{this.$router.push("/community/reviewlist")}, 1000)
       console.log(response)
     },
-    async updateButton(){
+    async deleteCommentButton(comment_id, idx){
+      console.log(idx)
       this.review['review_id'] = parseInt(this.reviewid)
-      this.$router.push(`/community/reviewlist/reviewupdate/${this.review['review_id']}`)
+      const response = await CommunityService.deleteComment(this.review, comment_id)
+      this.review.comments.splice(idx, 1)
+      console.log(response)
     },
     async createCommentButton(){
-
+      console.log(this.currentUser)
       this.review['review_id'] = parseInt(this.reviewid)
-      const response = await CommunityService.createComment(this.review, this.new_comment)
-      
-      console.log(response)
+      const response = await CommunityService.createComment(this.review, this.new_comment.content)
+      this.review.comments.push(response.data)
+      console.log(response.data)
+      console.log(this.review.comments)
     },
   },
 

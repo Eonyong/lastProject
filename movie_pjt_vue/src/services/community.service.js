@@ -27,6 +27,11 @@ class CommunityService {
     console.log(comment, review.review_id)
     return axios.post(API_URL+`${review.review_id}/comment/`, {content:comment},{ headers: authHeader() })
   }
+
+  deleteComment(review, comment_id) {
+    console.log('들어는왔음', comment_id)
+    return axios.delete(API_URL+`${review.review_id}/comment/`, { headers: authHeader() , data: {'id':comment_id}})
+  }
 }
 
 export default new CommunityService();
