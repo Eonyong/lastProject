@@ -12,7 +12,6 @@
                   <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Log in</p>
 
                   <form class="mx-1 mx-md-4">
-
                     <div class="d-flex flex-row align-items-center mb-4">
                       <div class="form-outline flex-fill mb-0">
                         <label class="form-label" for="username">Your ID</label>
