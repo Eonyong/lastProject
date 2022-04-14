@@ -3,7 +3,7 @@
 
 ## **Team FDA**
 
-서비스 설명??
+현재 날씨를 기반으로 한 영화를 추천하고 영화별 커뮤니티를 형성하여 좋아요 및 댓글을 통한 소통을 위한 커뮤니티 기반 영화 추천 서비스
 
 ## Team Introduce
 
@@ -34,7 +34,9 @@
   - Discord
   - Notion
 - Frontend
-  - 
+  - Vue
+  - Bootstrap-Vue
+  - axios
 - Backend
   - Python
   - Django
