@@ -15,15 +15,11 @@
 
 
 
-## 
-
 ------
 
-- 저희 페이지 사진들 실사용
+![image-20220414132141445](README.assets/image-20220414132141445.png)
 
-------
-
-
+![image-20220414132120553](README.assets/image-20220414132120553.png)
 
 ## **Development Stack**
 
@@ -102,3 +98,16 @@
   ```
 
 ------
+
+
+
+## 페이지 레이아웃
+
+![image-20220414131943431](README.assets/image-20220414131943431.png)
+
+![image-20220414132007540](README.assets/image-20220414132007540.png)
+
+![image-20220414132104216](README.assets/image-20220414132104216.png)
+
+
+
