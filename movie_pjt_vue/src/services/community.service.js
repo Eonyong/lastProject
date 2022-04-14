@@ -32,6 +32,10 @@ class CommunityService {
     console.log('들어는왔음', comment_id)
     return axios.delete(API_URL+`${review.review_id}/comment/`, { headers: authHeader() , data: {'id':comment_id}})
   }
+
+  reviewClaps(user) {
+    return axios.post(API_URL+`${review.review_id}/claps/`, {},{ headers: authHeader() })
+  }
 }
 
 export default new CommunityService();
