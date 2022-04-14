@@ -4,8 +4,10 @@ import VueRouter from "vue-router";
 import Home from "@/views/Home";
 import Login from "@/views/accounts/Login";
 import Signup from "@/views/accounts/Signup";
+
 import MovieList from "@/views/movie/MovieList";
 import MovieDetail from "@/views/movie/MovieDetail";
+
 import ReviewList from "@/views/community/ReviewList";
 import ReviewDetail from "@/views/community/ReviewDetail";
 import ReviewCreate from "@/views/community/ReviewCreate";

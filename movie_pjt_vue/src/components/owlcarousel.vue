@@ -14,13 +14,13 @@
           v-for="movie in movies.movies"
           :key="movie.id"
           style="list-style-type: none"
-          class="mx-4"
+          class="mx-4 flex-wrap align-items-baseline"
         >
           <b-card-img
+            id="hovering-img"
             :src="`${movie.poster_path_thumbnail}`"
             :title="movie.title"
-            @click="movieDetail(movie.id)"
-          />
+            @click="movieDetail(movie.id)" />
         </swiper-slide>
         <div class="swiper-button-prev" slot="button-prev" />
         <div class="swiper-button-next" slot="button-next" />
@@ -134,5 +134,29 @@ export default {
   align-items: center;
   padding: auto;
   margin: auto;
+}
+
+/* mouse over 하면 이미지 커지는... */
+#hovering-img {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+#hovering-img:hover {
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+}
+
+#heart-icon {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
 }
 </style>
