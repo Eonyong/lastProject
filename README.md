@@ -11,7 +11,7 @@
 | :---------------------------------------: | :-------------: |
 |  ![고슴도치](README.assets/고슴도치.png)  |                 |
 |          백엔드 API 개발 & Infra          | Frontend, UI/UX |
-| [@aletsire ](https://github.com/aletsire) |                 |
+| [@aletsire ](https://github.com/aletsire) | [@Eonyong ](https://github.com/Eonyong) |
 
 
 
